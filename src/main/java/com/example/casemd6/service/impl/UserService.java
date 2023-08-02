@@ -35,4 +35,11 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+    public User findAllByEmailIdIgnoreCase(String email){
+ return iUserRepository.findAllByEmailIgnoreCase(email);
+
+    }
+    public List<User> findAll(){
+        return iUserRepository.findAll();
+    }
 }
