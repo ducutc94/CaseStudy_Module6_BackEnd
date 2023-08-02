@@ -17,7 +17,7 @@ public class Products {
     private double price;
     private String image;
     private int views;
-    private String status_products = "0";
+    private String statusProducts = "0";
     @ManyToOne
     private Shops shops;
     @ManyToMany(fetch = FetchType.EAGER)

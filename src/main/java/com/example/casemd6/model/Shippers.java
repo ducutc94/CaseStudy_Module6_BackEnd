@@ -15,7 +15,7 @@ public class Shippers {
     private String phone;
     private String image;
     private double percent;
-    private String status_shippers = "0";
+    private String statusShippers = "0";
     private String status;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Shops> shops;

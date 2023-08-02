@@ -11,7 +11,7 @@ public class BillsDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int quantity;
-    private double total_price;
+    private double totalPrice;
     @ManyToOne
     private Products products;
     @ManyToOne

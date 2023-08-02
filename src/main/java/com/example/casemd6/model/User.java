@@ -18,7 +18,7 @@ public class User {
     private Date birthday;
     private String gender;
     private String image;
-    private String status_user = "0" ;
+    private String statusUser = "0" ;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
     @ManyToOne

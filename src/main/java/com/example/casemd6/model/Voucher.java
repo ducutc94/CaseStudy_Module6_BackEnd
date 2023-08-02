@@ -13,7 +13,7 @@ public class Voucher {
     private String name;
     private double percent;
     private int quantity;
-    private String status_voucher = "0";
+    private String statusVoucher = "0";
     @ManyToOne
     private Shops shops;
 }

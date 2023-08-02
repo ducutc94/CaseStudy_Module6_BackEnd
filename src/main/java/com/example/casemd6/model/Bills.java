@@ -17,5 +17,5 @@ public class Bills {
     private User user;
     @ManyToOne
     private Shops shops;
-    private String status_bills = "0";
+    private String statusBills = "0";
 }

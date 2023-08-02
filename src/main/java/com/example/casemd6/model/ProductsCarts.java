@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Products_Carts {
+public class ProductsCarts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

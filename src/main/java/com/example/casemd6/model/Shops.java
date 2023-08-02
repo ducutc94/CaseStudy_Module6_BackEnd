@@ -15,9 +15,9 @@ public class Shops {
     private String phone;
     private String description;
     private String email;
-    private Time start_time;
-    private Time end_time;
-    private String status_shops = "0";
+    private Time startTime;
+    private Time endTime;
+    private String statusShops = "0";
     @ManyToOne
     private User user;
     @ManyToOne
