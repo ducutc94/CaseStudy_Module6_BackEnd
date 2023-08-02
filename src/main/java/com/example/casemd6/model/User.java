@@ -1,9 +1,7 @@
 package com.example.casemd6.model;
-
 import lombok.Data;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -15,7 +13,7 @@ public class User {
     private String password;
     private String email;
     private String phone;
-    private Date birthday;
+    private LocalDate birthday;
     private String gender;
     private String image;
     private String statusUser = "0" ;
