@@ -18,8 +18,9 @@ public class User {
     private Date birthday;
     private String gender;
     private String image;
-    private String address;
     private String status_user = "0" ;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+    @ManyToOne
+    private City city;
 }
