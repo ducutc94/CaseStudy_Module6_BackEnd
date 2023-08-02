@@ -3,10 +3,15 @@ package com.example.casemd6.controller;
 import com.example.casemd6.jwt.service.JwtResponse;
 import com.example.casemd6.jwt.service.JwtService;
 import com.example.casemd6.model.User;
+import com.example.casemd6.model.token.ConfirmationToken;
+import com.example.casemd6.repository.ConfirmationTokenRepository.ConfirmationTokenRepository;
+import com.example.casemd6.repository.IUserRepository;
+import com.example.casemd6.service.impl.EmailService;
 import com.example.casemd6.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +35,10 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody User user) {
@@ -42,16 +51,39 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(userInfo.getId(), jwt,
                 userInfo.getUsername(), userInfo.getUsername(), userDetails.getAuthorities()));
     }
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody User user) {
+    @RequestMapping(value="/register", method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@RequestBody User user){
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
-        boolean check = userService.add(user);
-        if (check) {
+        User existingUser = userService.findAllByEmailIdIgnoreCase(user.getEmail());
+        if(existingUser != null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            userService.add(user);
+            ConfirmationToken confirmationToken = new ConfirmationToken(user);
+            confirmationTokenRepository.save(confirmationToken);
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(user.getEmail());
+            mailMessage.setSubject("Complete Registration!");
+            mailMessage.setFrom("YOUREMAILADDRESS");
+            mailMessage.setText("To confirm your account, please click here : "
+                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
+            emailService.sendEmail(mailMessage);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    @RequestMapping(value="/confirm-account", method = {RequestMethod.POST,RequestMethod.GET})
+    public ResponseEntity<Void> confirmUser(@RequestParam("token")String confirmationToken){
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        if(token !=null){
+            User user = userService.findAllByEmailIdIgnoreCase(token.getUser().getEmail());
+            user.setStatusUser("1");
+            userService.add(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
 }
