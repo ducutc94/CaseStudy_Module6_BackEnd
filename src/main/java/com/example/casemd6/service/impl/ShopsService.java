@@ -38,4 +38,9 @@ public class ShopsService implements IShopsService {
             iShopsRepository.save(shops);
         }
     }
+
+    @Override
+    public List<Shops> findShopByUserId(Long id) {
+        return iShopsRepository.findShopByUserId(id);
+    }
 }

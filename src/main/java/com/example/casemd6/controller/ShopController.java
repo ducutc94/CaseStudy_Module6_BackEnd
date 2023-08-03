@@ -18,44 +18,58 @@ public class ShopController {
     private IShopsService iShopsService;
 
     @GetMapping
-    ResponseEntity<List<Shops>> findAll(){
+    public ResponseEntity<List<Shops>> findAll() {
         List<Shops> shopsList = (List<Shops>) iShopsService.findAll();
-        if (shopsList.isEmpty()){
+        if (shopsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }else {
-            return new ResponseEntity<>(shopsList,HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(shopsList, HttpStatus.ACCEPTED);
         }
     }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Shops>> findShopByUserId(@PathVariable Long id) {
+        List<Shops> shopsList =  iShopsService.findShopByUserId(id);
+        if (shopsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(shopsList, HttpStatus.ACCEPTED);
+        }
+    }
+
     @GetMapping("/{id}")
-    ResponseEntity<Optional<Shops>> findOne(@PathVariable Long id){
+    public ResponseEntity<Optional<Shops>> findOne(@PathVariable Long id) {
         Optional<Shops> shopsOptional = iShopsService.findOne(id);
-        if (!shopsOptional.isPresent()){
+        if (!shopsOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }else {
-            return new ResponseEntity<>(shopsOptional,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(shopsOptional, HttpStatus.OK);
         }
     }
+
     @PostMapping
-    ResponseEntity<Shops> create(@RequestBody Shops shops){
-        return new ResponseEntity<>(iShopsService.save(shops),HttpStatus.CREATED);
+    public  ResponseEntity<Shops> create(@RequestBody Shops shops) {
+        return new ResponseEntity<>(iShopsService.save(shops), HttpStatus.CREATED);
     }
+
     @PutMapping("/{id}")
-    ResponseEntity<Optional<Shops>> update(@PathVariable Long id,@RequestBody Shops shops){
+    public ResponseEntity<Optional<Shops>> update(@PathVariable Long id, @RequestBody Shops shops) {
         Optional<Shops> shopsOptional = iShopsService.findOne(id);
-        if (!shopsOptional.isPresent()){
+        if (!shopsOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }else {
+        } else {
             shops.setId(id);
             iShopsService.save(shops);
-            return new ResponseEntity<>(shopsOptional,HttpStatus.OK);
+            return new ResponseEntity<>(shopsOptional, HttpStatus.OK);
         }
     }
+
     @DeleteMapping("/{id}")
-    ResponseEntity<Optional<Shops>> delete(@PathVariable Long id){
+    ResponseEntity<Optional<Shops>> delete(@PathVariable Long id) {
         Optional<Shops> shopsOptional = iShopsService.findOne(id);
-        if (!shopsOptional.isPresent()){
+        if (!shopsOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }else {
+        } else {
             iShopsService.remove(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
