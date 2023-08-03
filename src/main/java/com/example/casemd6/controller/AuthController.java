@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,13 +27,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private JwtService jwtService;
-
     @Autowired
     private UserService userService;
     @Autowired
@@ -65,24 +63,24 @@ public class AuthController {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(user.getEmail());
             mailMessage.setSubject("Complete Registration!");
-            mailMessage.setFrom("YOUREMAILADDRESS");
             mailMessage.setText("To confirm your account, please click here : "
-                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
+                    +"http://localhost:8080/api/auth/confirm-account?token="+confirmationToken.getConfirmationToken());
             emailService.sendEmail(mailMessage);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+
     }
     @RequestMapping(value="/confirm-account", method = {RequestMethod.POST,RequestMethod.GET})
-    public ResponseEntity<Void> confirmUser(@RequestParam("token")String confirmationToken){
+    public ResponseEntity<String> confirmUser(@RequestParam("token")String confirmationToken){
         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
         if(token !=null){
             User user = userService.findAllByEmailIdIgnoreCase(token.getUser().getEmail());
             user.setStatusUser("1");
             userService.add(user);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("Xác Thực Thành Công",HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Xác Thực Thất Bại",HttpStatus.NO_CONTENT);
         }
     }
 
