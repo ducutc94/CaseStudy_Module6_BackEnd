@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/shops/**/").permitAll()
                 .antMatchers("/api/users/**").permitAll()
                 .antMatchers("/api/products/**").permitAll()
-                .antMatchers("/api/category/**").permitAll()
+                .antMatchers("/api/city/**").permitAll()
 //                .antMatchers(HttpMethod.GET, "/api/homestays/**", "/api/bookings/**").permitAll()
 //                .antMatchers(HttpMethod.POST, "/api/homestays/**", "/api/bookings/**").hasAnyRole("ADMIN")
 //                .antMatchers(HttpMethod.DELETE, "/api/homestays/**", "/api/bookings/**").hasAnyRole("ADMIN")
