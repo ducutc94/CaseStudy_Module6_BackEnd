@@ -45,7 +45,7 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User userInfo = userService.findByUsername(user.getUsername());
         return ResponseEntity.ok(new JwtResponse(userInfo.getId(), jwt,
-                userInfo.getUsername(), userInfo.getUsername(), userDetails.getAuthorities()));
+                userInfo.getUsername(), userInfo.getUsername(), userDetails.getAuthorities(),userInfo.getImage()));
     }
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public ResponseEntity<Void> register(@RequestBody User user){

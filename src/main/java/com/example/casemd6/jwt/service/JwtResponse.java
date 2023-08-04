@@ -11,13 +11,23 @@ public class JwtResponse {
     private String type = "Bearer";
     private String username;
     private String name;
+    private String image;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public JwtResponse(Long id, String token, String username, String name, Collection<? extends GrantedAuthority> authorities) {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public JwtResponse(Long id, String token, String username, String name, Collection<? extends GrantedAuthority> authorities, String image) {
         this.id = id;
         this.token = token;
         this.username = username;
         this.name = name;
+        this.image = image;
         this.authorities = authorities;
     }
 
