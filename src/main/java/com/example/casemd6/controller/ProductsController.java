@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -53,5 +54,13 @@ public class ProductsController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
+    @GetMapping("/search")
+    public ResponseEntity<List<Products>> findProductByName(@RequestParam("search") String search) {
+        List<Products> productsList = productService.findAllByName(search);
+        if (productsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(productsList, HttpStatus.OK);
+        }
+    }
 }
