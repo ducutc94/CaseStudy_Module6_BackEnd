@@ -38,14 +38,18 @@ public class AuthController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody User user) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtService.generateTokenLogin(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User userInfo = userService.findByUsername(user.getUsername());
-        return ResponseEntity.ok(new JwtResponse(userInfo.getId(), jwt,
-                userInfo.getUsername(), userInfo.getUsername(), userDetails.getAuthorities(),userInfo.getImage()));
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtService.generateTokenLogin(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User userInfo = userService.findByUsername(user.getUsername());
+            if(userInfo.getStatusUser().equals("1")){
+                return ResponseEntity.ok(new JwtResponse(userInfo.getId(), jwt,
+                        userInfo.getUsername(), userInfo.getUsername(), userDetails.getAuthorities(),userInfo.getImage()));
+            }else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
     }
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public ResponseEntity<Void> register(@RequestBody User user){
