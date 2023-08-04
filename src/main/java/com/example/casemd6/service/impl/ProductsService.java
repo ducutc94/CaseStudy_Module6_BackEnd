@@ -37,4 +37,9 @@ public class ProductsService implements IProductsService {
             iProductsRepository.save(products);
         }
     }
+
+    @Override
+    public List<Products> findAllByName( String name) {
+        return iProductsRepository.findAllByNameEqualsIgnoreCase(name);
+    }
 }

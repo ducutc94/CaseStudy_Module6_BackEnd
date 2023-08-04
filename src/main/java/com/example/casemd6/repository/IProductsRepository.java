@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IProductsRepository extends JpaRepository<Products,Long> {
-
-
+public interface IProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "SELECT * FROM products WHERE status_products = 0", nativeQuery = true)
     List<Products> findProductsByStatusZero();
+
+    List<Products> findAllByNameEqualsIgnoreCase(String name);
 }
