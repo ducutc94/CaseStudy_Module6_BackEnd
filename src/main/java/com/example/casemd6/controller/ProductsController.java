@@ -54,8 +54,6 @@ public class ProductsController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-
     @GetMapping("/search")
     public ResponseEntity<List<Products>> findProductByName(@RequestParam("search") String search) {
         List<Products> productsList = productService.findAllByName(search);

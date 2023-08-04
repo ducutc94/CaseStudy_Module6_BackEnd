@@ -39,7 +39,7 @@ public class ProductsService implements IProductsService {
     }
 
     @Override
-    public List<Products> findAllByName( String name) {
-        return iProductsRepository.findAllByNameEqualsIgnoreCase(name);
+    public List<Products> findAllByName(String name) {
+        return iProductsRepository.findByName("%"+name+"%");
     }
 }
