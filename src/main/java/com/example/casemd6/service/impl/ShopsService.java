@@ -13,8 +13,6 @@ import java.util.Optional;
 public class ShopsService implements IShopsService {
     @Autowired
     private IShopsRepository iShopsRepository;
-    List<Shops> shopsList;
-
     @Override
     public Iterable<Shops> findAll() {
         return iShopsRepository.findAllStatus();
@@ -42,5 +40,15 @@ public class ShopsService implements IShopsService {
     @Override
     public List<Shops> findShopByUserId(Long id) {
         return iShopsRepository.findShopByUserId(id);
+    }
+
+    @Override
+    public Shops findAllByEmailIgnoreCase(String email) {
+        return iShopsRepository.findAllByEmailIgnoreCase(email);
+    }
+
+    @Override
+    public List<Shops> findAllByAdmin() {
+        return iShopsRepository.findAll();
     }
 }

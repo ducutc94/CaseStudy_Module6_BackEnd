@@ -17,7 +17,7 @@ public class Shops {
     private String email;
     private Time startTime;
     private Time endTime;
-    private String statusShops = "0";
+    private String statusShops = "2";
     @ManyToOne
     private User user;
     @ManyToOne
