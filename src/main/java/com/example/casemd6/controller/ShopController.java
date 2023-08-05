@@ -1,10 +1,7 @@
 package com.example.casemd6.controller;
 
 import com.example.casemd6.model.Shops;
-import com.example.casemd6.model.User;
-import com.example.casemd6.model.token.ConfirmationToken;
 import com.example.casemd6.model.token.ConfirmationTokenShops;
-import com.example.casemd6.repository.ConfirmationTokenRepository.ConfirmationTokenRepository;
 import com.example.casemd6.repository.ConfirmationTokenRepository.ConfirmationTokenShopsRepository;
 import com.example.casemd6.service.IShopsService;
 import com.example.casemd6.service.impl.EmailService;
@@ -125,10 +122,10 @@ public class ShopController {
             Shops shops = iShopsService.findAllByEmailIgnoreCase(token.getShops().getEmail());
             shops.setStatusShops("0");
             iShopsService.save(shops);
-            return new ResponseEntity<>("Xác Thực Thành Công",HttpStatus.OK);
+            return new ResponseEntity<>("Xác Thực Shop Thành Công",HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>("Xác Thực Thất Bại",HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Xác Thực Shop Thất Bại",HttpStatus.NO_CONTENT);
         }
     }
 }
