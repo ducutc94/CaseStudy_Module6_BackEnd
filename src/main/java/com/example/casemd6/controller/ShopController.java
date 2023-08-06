@@ -76,6 +76,7 @@ public class ShopController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             shops.setId(id);
+            shops.setStatusShops("0");
             iShopsService.save(shops);
             return new ResponseEntity<>(shopsOptional, HttpStatus.OK);
         }
