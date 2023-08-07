@@ -46,7 +46,7 @@ public class ShopController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<List<Shops>> findShopByUserId(@PathVariable Long id) {
-        List<Shops> shopsList =  iShopsService.findShopByUserId(id);
+        List<Shops> shopsList =  iShopsService.findAllByUser(id);
         if (shopsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
