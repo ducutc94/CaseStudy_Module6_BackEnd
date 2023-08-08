@@ -8,6 +8,8 @@ import com.example.casemd6.service.IProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,6 +31,15 @@ public class ProductsCartsService implements IProductsCartsService {
     public ProductsCarts save(ProductsCarts productsCarts) {
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
         products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
+        List<ProductsCarts> productsCartsList = (List<ProductsCarts>) findAll();
+        for (ProductsCarts p:productsCartsList) {
+            if(Objects.equals(products.getId(), p.getProducts().getId())
+                    && p.getProducts().getPrice() == products.getPrice()){
+                p.setQuantity(p.getQuantity()+productsCarts.getQuantity());
+                iProductsService.save(products);
+                return iProductsCartsRepository.save(p);
+            }
+        }
         iProductsService.save(products);
         return iProductsCartsRepository.save(productsCarts);
     }
