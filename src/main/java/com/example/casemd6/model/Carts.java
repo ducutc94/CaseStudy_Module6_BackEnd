@@ -10,6 +10,8 @@ public class Carts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String statusCarts = "0";
     @ManyToOne
     private User user;
+
 }

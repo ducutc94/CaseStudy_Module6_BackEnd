@@ -11,6 +11,7 @@ public class ProductsCarts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int quantity;
+    private String statusProductsCarts = "0";
     @ManyToOne
     private Carts carts;
     @ManyToOne
