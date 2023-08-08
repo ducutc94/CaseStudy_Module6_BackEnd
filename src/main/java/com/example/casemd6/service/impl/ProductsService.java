@@ -42,4 +42,8 @@ public class ProductsService implements IProductsService {
     public List<Products> findAllByName(String name) {
         return iProductsRepository.findByName("%"+name+"%");
     }
+    @Override
+    public List<Products> findProductByCategory(Long productId) {
+        return iProductsRepository.findProductByCategoryId(productId);
+    }
 }

@@ -63,4 +63,13 @@ public class ProductsController {
             return new ResponseEntity<>(productsList, HttpStatus.OK);
         }
     }
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<Products>> findProductsByCategoryId(@PathVariable Long id){
+        List<Products> productsList = productService.findProductByCategory(id);
+        if (productsList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(productsList,HttpStatus.OK);
+        }
+    }
 }
