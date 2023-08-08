@@ -3,6 +3,7 @@ package com.example.casemd6.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -14,6 +15,6 @@ public class Voucher {
     private double percent;
     private int quantity;
     private String statusVoucher = "0";
-    @ManyToOne
-    private Shops shops;
+    @ManyToMany
+    private Set<Shops> shops;
 }
