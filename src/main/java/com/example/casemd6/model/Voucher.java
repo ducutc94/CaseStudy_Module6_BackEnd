@@ -15,6 +15,6 @@ public class Voucher {
     private double percent;
     private int quantity;
     private String statusVoucher = "0";
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Shops> shops;
 }
