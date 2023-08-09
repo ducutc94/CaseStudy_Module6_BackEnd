@@ -26,9 +26,9 @@ public class BillController {
             return new ResponseEntity<>(billsList, HttpStatus.ACCEPTED);
         }
     }
-    @GetMapping("/shop/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<List<Bills>> findAll(@PathVariable Long id) {
-        List<Bills> billsList = (List<Bills>) iBillsService.findAllByStatus(id);
+        List<Bills> billsList = iBillsService.findAllByUser(id);
         if (billsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -42,23 +42,6 @@ public class BillController {
         if (!billsOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(billsOptional, HttpStatus.OK);
-        }
-    }
-
-    @PostMapping
-    public  ResponseEntity<Bills> create(@RequestBody Bills bills) {
-        return new ResponseEntity<>(iBillsService.save(bills), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Optional<Bills>> update(@PathVariable Long id, @RequestBody Bills bills) {
-        Optional<Bills> billsOptional = iBillsService.findOne(id);
-        if (!billsOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            bills.setId(id);
-            iBillsService.save(bills);
             return new ResponseEntity<>(billsOptional, HttpStatus.OK);
         }
     }

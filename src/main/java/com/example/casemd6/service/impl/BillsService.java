@@ -19,8 +19,8 @@ public class BillsService implements IBillsService {
     }
 
     @Override
-    public List<Bills> findAllByStatus(Long id) {
-        return iBillsRepository.findAllStatus(id);
+    public List<Bills> findAllByUser(Long id) {
+        return iBillsRepository.findAllByUser(id);
     }
 
     @Override
@@ -35,10 +35,6 @@ public class BillsService implements IBillsService {
 
     @Override
     public void remove(Long id) {
-        Optional<Bills> billsOptional = iBillsRepository.findById(id);
-        if (billsOptional.isPresent()){
-            billsOptional.get().setStatusBills("1");
-            iBillsRepository.save(billsOptional.get());
-        }
+       iBillsRepository.deleteById(id);
     }
 }

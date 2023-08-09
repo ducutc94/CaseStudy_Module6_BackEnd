@@ -5,5 +5,5 @@ import com.example.casemd6.model.Bills;
 import java.util.List;
 
 public interface IBillsService extends IGeneralService<Bills>{
-    List<Bills> findAllByStatus(Long id);
+    List<Bills> findAllByUser(Long id);
 }

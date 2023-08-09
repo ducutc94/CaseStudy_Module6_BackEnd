@@ -10,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface IBillsRepository extends JpaRepository<Bills,Long> {
-    @Query(value = "select * from bills inner join shops s  on bills.shops_id = s.id \n" +
-            "    inner join user u on bills.user_id = u.id and s.user_id = ? where status_bills = '0';",nativeQuery = true)
-    List<Bills> findAllStatus(@PathVariable Long id);
+    @Query(value = "select * from bills inner join products_carts pc on bills.products_carts_id = pc.id " +
+            "inner join carts c on pc.carts_id = c.id " +
+            "inner join user u on c.user_id = u.id and user_id = ?;",nativeQuery = true)
+    List<Bills> findAllByUser(@PathVariable Long id);
 }
