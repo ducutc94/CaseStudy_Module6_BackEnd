@@ -41,7 +41,6 @@ public class ProductsCartsController {
     }
     @PostMapping
     public  ResponseEntity<ProductsCarts> create(@RequestBody ProductsCarts productsCarts) {
-        productsCarts.setStatusProductsCarts("0");
         return new ResponseEntity<>(iProductsCartsService.save(productsCarts), HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
@@ -64,6 +63,15 @@ public class ProductsCartsController {
         } else {
             iProductsCartsService.remove(id);
             return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ProductsCarts>> findAllById(@PathVariable Long id) {
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdUser(id);
+        if (productsCartsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
         }
     }
 }

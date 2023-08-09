@@ -14,8 +14,5 @@ public class Bills {
     private LocalDate date;
     private String status = "0";
     @ManyToOne
-    private User user;
-    @ManyToOne
-    private Shops shops;
-    private String statusBills = "0";
+    private ProductsCarts productsCarts;
 }

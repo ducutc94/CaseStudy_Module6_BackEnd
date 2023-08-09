@@ -28,7 +28,13 @@ public class ProductsCartsService implements IProductsCartsService {
     }
 
     @Override
+    public List<ProductsCarts> findByIdUser(Long id) {
+        return iProductsCartsRepository.findByIdUser(id);
+    }
+
+    @Override
     public ProductsCarts save(ProductsCarts productsCarts) {
+        productsCarts.setStatusProductsCarts("0");
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
         products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
         List<ProductsCarts> productsCartsList = (List<ProductsCarts>) findAll();

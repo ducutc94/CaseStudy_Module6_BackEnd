@@ -16,4 +16,6 @@ public class ProductsCarts {
     private Carts carts;
     @ManyToOne
     private Products products;
+    @Transient
+    private double totalPrice;
 }
