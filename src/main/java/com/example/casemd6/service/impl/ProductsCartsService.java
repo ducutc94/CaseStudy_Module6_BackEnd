@@ -29,24 +29,31 @@ public class ProductsCartsService implements IProductsCartsService {
 
     @Override
     public List<ProductsCarts> findByIdUser(Long id) {
-        return iProductsCartsRepository.findByIdUser(id);
+        double totalPrice;
+        List<ProductsCarts> productsCarts = iProductsCartsRepository.findByIdUser(id);
+        for (ProductsCarts p :productsCarts) {
+           totalPrice = p.getQuantity()*(p.getProducts().getPrice());
+           p.setTotalPrice(totalPrice);
+        }
+
+        return productsCarts;
     }
 
     @Override
     public ProductsCarts save(ProductsCarts productsCarts) {
         productsCarts.setStatusProductsCarts("0");
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
-        products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
+//        products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
         List<ProductsCarts> productsCartsList = (List<ProductsCarts>) findAll();
         for (ProductsCarts p:productsCartsList) {
             if(Objects.equals(products.getId(), p.getProducts().getId())
                     && p.getProducts().getPrice() == products.getPrice()){
                 p.setQuantity(p.getQuantity()+productsCarts.getQuantity());
-                iProductsService.save(products);
+//                iProductsService.save(products);
                 return iProductsCartsRepository.save(p);
             }
         }
-        iProductsService.save(products);
+//        iProductsService.save(products);
         return iProductsCartsRepository.save(productsCarts);
     }
 
