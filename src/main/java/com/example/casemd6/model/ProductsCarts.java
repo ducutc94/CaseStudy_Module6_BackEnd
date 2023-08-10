@@ -3,7 +3,7 @@ package com.example.casemd6.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -13,7 +13,7 @@ public class ProductsCarts {
     private Long id;
     private int quantity;
     private String statusProductsCarts = "2";
-    private LocalDate date;
+    private LocalDateTime date;
     @ManyToOne
     private Carts carts;
     @ManyToOne

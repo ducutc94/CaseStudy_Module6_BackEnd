@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,11 +66,20 @@ public class ProductsCartsController {
     }
     @PutMapping("/update-confirm/{id}")
     public ResponseEntity<ProductsCarts> updateConfirm(@PathVariable Long id) {
+        int total;
+        LocalDateTime localDate = LocalDateTime.now();
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
         ProductsCarts productsCarts = productsCartsOptional.get();
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
-        products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
-        productsCarts.setStatusProductsCarts("0");
+        total = products.getQuantity()-productsCarts.getQuantity();
+        if(total>=0){
+            products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
+            productsCarts.setStatusProductsCarts("0");
+            productsCarts.setDate(localDate);
+        }else {
+            productsCarts.setStatusProductsCarts("1");
+            productsCarts.setDate(localDate);
+        }
         iProductsService.save(products);
         iProductsCartsService.update(productsCarts);
         return new ResponseEntity<>(productsCarts, HttpStatus.OK);
