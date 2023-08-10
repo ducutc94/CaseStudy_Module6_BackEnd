@@ -25,6 +25,9 @@ public class ProductsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Products>> findOneProduct(@PathVariable Long id) {
+        Products products = productService.findOne(id).get();
+        products.setViews(products.getViews() + 1);
+        productService.save(products);
         return new ResponseEntity<>(productService.findOne(id), HttpStatus.OK);
     }
 
