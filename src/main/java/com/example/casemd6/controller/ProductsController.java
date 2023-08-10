@@ -100,4 +100,32 @@ public class ProductsController {
         }
     }
 
+    @GetMapping("/sort_price_asc")
+    public ResponseEntity<List<Products>>listProductsByPriceAsc(){
+        List<Products> productsList = productService.sortByPriceAsc();
+        if (productsList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsList,HttpStatus.OK);
+        }
+    }
+    @GetMapping("/sort_price_desc")
+    public ResponseEntity<List<Products>> listProductsByPriceDesc (){
+        List<Products> productsList = productService.sortByPriceDesc();
+        if (productsList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsList,HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/sort_view_desc")
+        public ResponseEntity<List<Products>>listProductsByViewDesc(){
+        List<Products> productsList = productService.sortByViewDesc();
+        if(productsList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(productsList,HttpStatus.OK);
+        }
+    }
 }

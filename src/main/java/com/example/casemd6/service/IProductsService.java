@@ -10,4 +10,7 @@ public interface IProductsService extends IGeneralService<Products>{
     List<Products> findProductByCategory(Long productId);
     List<Products> findProductByCity(Long CityId);
     List<Products> findProductsByCategoryIdAndCityId(Long categoryId,Long cityId);
+    List<Products> sortByPriceAsc();
+    List<Products> sortByPriceDesc();
+    List<Products> sortByViewDesc();
 }
