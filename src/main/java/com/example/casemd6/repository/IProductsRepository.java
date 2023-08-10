@@ -30,4 +30,8 @@ public interface IProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "SELECT p.* FROM products p JOIN shops s ON p.shops_id = s.id JOIN city c ON s.city_id = c.id join  products_categories pc ON p.id = pc.products_id WHERE c.id = :cityId AND pc.categories_id =:categoryId ",nativeQuery = true)
     List<Products> findProductsByCategoriesIdAndCityId(@Param("categoryId") Long categoryId,
                                                        @Param("cityId") Long cityId);
+
+    List<Products> findAllByOrderByPriceAsc();
+    List<Products> findAllByOrderByPriceDesc();
+    List<Products> findAllByOrderByViewsDesc();
 }

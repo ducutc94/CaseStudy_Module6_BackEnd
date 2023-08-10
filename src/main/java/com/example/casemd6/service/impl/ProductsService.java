@@ -56,4 +56,19 @@ public class ProductsService implements IProductsService {
     public List<Products> findProductsByCategoryIdAndCityId(Long categoryId, Long cityId) {
         return iProductsRepository.findProductsByCategoriesIdAndCityId(categoryId,cityId);
     }
+
+    @Override
+    public List<Products> sortByPriceAsc() {
+        return iProductsRepository.findAllByOrderByPriceAsc();
+    }
+
+    @Override
+    public List<Products> sortByPriceDesc() {
+        return iProductsRepository.findAllByOrderByPriceDesc();
+    }
+
+    @Override
+    public List<Products> sortByViewDesc() {
+        return iProductsRepository.findAllByOrderByViewsDesc();
+    }
 }
