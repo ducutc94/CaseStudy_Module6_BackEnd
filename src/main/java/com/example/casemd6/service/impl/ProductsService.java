@@ -51,4 +51,9 @@ public class ProductsService implements IProductsService {
     public List<Products> findProductByCity(Long cityId) {
         return iProductsRepository.findProductsByCityId(cityId);
     }
+
+    @Override
+    public List<Products> findProductsByCategoryIdAndCityId(Long categoryId, Long cityId) {
+        return iProductsRepository.findProductsByCategoriesIdAndCityId(categoryId,cityId);
+    }
 }

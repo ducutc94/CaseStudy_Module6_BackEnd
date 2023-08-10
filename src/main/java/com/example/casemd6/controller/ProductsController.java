@@ -83,4 +83,18 @@ public class ProductsController {
             return new ResponseEntity<>(productsList, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/category/{categoryId}/city/{cityId}")
+    public ResponseEntity<?>findProductsByCategoryIdAndCityId(
+            @PathVariable Long cityId,
+            @PathVariable Long categoryId) {
+        List<Products> product = productService.findProductsByCategoryIdAndCityId(categoryId, cityId);
+        if (product == null) {
+            String errorMessage = "Không tìm thấy sản phẩm yêu cầu.";
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        }
+    }
+
 }

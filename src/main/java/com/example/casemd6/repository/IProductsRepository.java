@@ -26,4 +26,8 @@ public interface IProductsRepository extends JpaRepository<Products, Long> {
 //    List<Products> findProductsByStatusZero();
     @Query(value = "SELECT p.* FROM products p JOIN shops s ON p.shops_id = s.id JOIN city c ON s.city_id = c.id WHERE c.id = :cityId", nativeQuery = true)
     List<Products> findProductsByCityId(Long cityId);
+
+    @Query(value = "SELECT p.* FROM products p JOIN shops s ON p.shops_id = s.id JOIN city c ON s.city_id = c.id join  products_categories pc ON p.id = pc.products_id WHERE c.id = :cityId AND pc.categories_id =:categoryId ",nativeQuery = true)
+    List<Products> findProductsByCategoriesIdAndCityId(@Param("categoryId") Long categoryId,
+                                                       @Param("cityId") Long cityId);
 }
