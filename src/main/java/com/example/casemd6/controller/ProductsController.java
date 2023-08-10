@@ -54,6 +54,7 @@ public class ProductsController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     @GetMapping("/search")
     public ResponseEntity<List<Products>> findProductByName(@RequestParam("search") String search) {
         List<Products> productsList = productService.findAllByName(search);
@@ -63,13 +64,23 @@ public class ProductsController {
             return new ResponseEntity<>(productsList, HttpStatus.OK);
         }
     }
+
     @GetMapping("/category/{id}")
-    public ResponseEntity<List<Products>> findProductsByCategoryId(@PathVariable Long id){
+    public ResponseEntity<List<Products>> findProductsByCategoryId(@PathVariable Long id) {
         List<Products> productsList = productService.findProductByCategory(id);
-        if (productsList.isEmpty()){
+        if (productsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else {
-            return new ResponseEntity<>(productsList,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(productsList, HttpStatus.OK);
+        }
+    }
+    @GetMapping("/city/{id}")
+    public ResponseEntity<List<Products>> findProductsByCityId(@PathVariable Long id) {
+        List<Products> productsList = productService.findProductByCity(id);
+        if (productsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(productsList, HttpStatus.OK);
         }
     }
 }
