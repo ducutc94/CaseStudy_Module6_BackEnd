@@ -9,4 +9,5 @@ public interface IProductsService extends IGeneralService<Products>{
     List<Products> findAllByName(String name);
     List<Products> findProductByCategory(Long productId);
     List<Products> findProductByCity(Long CityId);
+    List<Products> findProductsByCategoryIdAndCityId(Long categoryId,Long cityId);
 }
