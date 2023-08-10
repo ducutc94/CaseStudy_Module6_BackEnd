@@ -3,7 +3,6 @@ package com.example.casemd6.service.impl;
 import com.example.casemd6.model.Carts;
 import com.example.casemd6.model.Products;
 import com.example.casemd6.model.ProductsCarts;
-import com.example.casemd6.repository.ICartsRepository;
 import com.example.casemd6.repository.IProductsCartsRepository;
 import com.example.casemd6.service.ICartsService;
 import com.example.casemd6.service.IProductsCartsService;
@@ -83,6 +82,17 @@ public class ProductsCartsService implements IProductsCartsService {
             productsCartsOptional.setStatusProductsCarts("1");
             iProductsCartsRepository.save(productsCartsOptional);
         }
+    }
+
+    @Override
+    public List<ProductsCarts> findByIdMerchantService(Long id) {
+        double totalPrice;
+        List<ProductsCarts> productsCarts = iProductsCartsRepository.findByIdMerchantService(id);
+        for (ProductsCarts p :productsCarts) {
+            totalPrice = p.getQuantity()*(p.getProducts().getPrice());
+            p.setTotalPrice(totalPrice);
+        }
+        return productsCarts;
     }
 
     @Override

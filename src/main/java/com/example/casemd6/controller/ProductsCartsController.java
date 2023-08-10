@@ -2,7 +2,6 @@ package com.example.casemd6.controller;
 
 import com.example.casemd6.model.Products;
 import com.example.casemd6.model.ProductsCarts;
-import com.example.casemd6.model.Shops;
 import com.example.casemd6.service.IProductsCartsService;
 import com.example.casemd6.service.IProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,25 +58,28 @@ public class ProductsCartsController {
     public ResponseEntity<ProductsCarts> updateStatus(@PathVariable Long id) {
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
         ProductsCarts productsCarts = productsCartsOptional.get();
-        if (!productsCartsOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            productsCarts.setStatusProductsCarts("5");
-            iProductsCartsService.update(productsCarts);
-            return new ResponseEntity<>(productsCarts, HttpStatus.OK);
-        }
+        productsCarts.setStatusProductsCarts("5");
+        iProductsCartsService.update(productsCarts);
+        return new ResponseEntity<>(productsCarts, HttpStatus.OK);
+    }
+    @PutMapping("/update-confirm/{id}")
+    public ResponseEntity<ProductsCarts> updateConfirm(@PathVariable Long id) {
+        Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
+        ProductsCarts productsCarts = productsCartsOptional.get();
+        Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
+        products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
+        productsCarts.setStatusProductsCarts("0");
+        iProductsService.save(products);
+        iProductsCartsService.update(productsCarts);
+        return new ResponseEntity<>(productsCarts, HttpStatus.OK);
     }
     @PutMapping("/merchant-update/{id}")
     public ResponseEntity<ProductsCarts> merchantUpdate(@PathVariable Long id) {
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
         ProductsCarts productsCarts = productsCartsOptional.get();
-        if (!productsCartsOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            productsCarts.setStatusProductsCarts("0");
-            iProductsCartsService.update(productsCarts);
-            return new ResponseEntity<>(productsCarts, HttpStatus.OK);
-        }
+        productsCarts.setStatusProductsCarts("0");
+        iProductsCartsService.update(productsCarts);
+        return new ResponseEntity<>(productsCarts, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -120,6 +122,15 @@ public class ProductsCartsController {
     @GetMapping("/merchant-cart/{id}")
     public ResponseEntity<List<ProductsCarts>> findAllByIdMerchant(@PathVariable Long id) {
         List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdMerchant(id);
+        if (productsCartsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
+        }
+    }
+    @GetMapping("/merchant-service/{id}")
+    public ResponseEntity<List<ProductsCarts>> findByIdMerchantService(@PathVariable Long id) {
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdMerchantService(id);
         if (productsCartsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

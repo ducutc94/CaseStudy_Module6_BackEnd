@@ -13,4 +13,5 @@ public interface IProductsCartsService extends IGeneralService<ProductsCarts>{
     ProductsCarts update(ProductsCarts productsCarts);
     List<ProductsCarts> findByIdMerchant( Long id);
     void deleteM(Long id);
+    List<ProductsCarts> findByIdMerchantService( Long id);
 }
