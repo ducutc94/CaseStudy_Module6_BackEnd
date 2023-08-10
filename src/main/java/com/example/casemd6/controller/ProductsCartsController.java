@@ -55,6 +55,18 @@ public class ProductsCartsController {
             return new ResponseEntity<>(productsCarts, HttpStatus.OK);
         }
     }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ProductsCarts> updateStatus(@PathVariable Long id) {
+        Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
+        ProductsCarts productsCarts = productsCartsOptional.get();
+        if (!productsCartsOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            productsCarts.setStatusProductsCarts("5");
+            iProductsCartsService.update(productsCarts);
+            return new ResponseEntity<>(productsCarts, HttpStatus.OK);
+        }
+    }
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable Long id) {
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
@@ -68,6 +80,15 @@ public class ProductsCartsController {
     @GetMapping("/user/{id}")
     public ResponseEntity<List<ProductsCarts>> findAllById(@PathVariable Long id) {
         List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdUser(id);
+        if (productsCartsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
+        }
+    }
+    @GetMapping("/user-cart/{id}")
+    public ResponseEntity<List<ProductsCarts>> findAllByIdUser(@PathVariable Long id) {
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdUserCart(id);
         if (productsCartsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

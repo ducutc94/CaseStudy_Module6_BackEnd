@@ -9,4 +9,6 @@ import java.util.List;
 public interface IProductsCartsService extends IGeneralService<ProductsCarts>{
     List<ProductsCarts> findByIdUser( Long id);
     List<ProductsCarts> findByUser( Long id);
+    List<ProductsCarts> findByIdUserCart( Long id);
+    ProductsCarts update(ProductsCarts productsCarts);
 }
