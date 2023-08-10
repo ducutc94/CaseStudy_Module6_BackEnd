@@ -123,7 +123,7 @@ public class ProductsController {
         public ResponseEntity<List<Products>>listProductsByViewDesc(){
         List<Products> productsList = productService.sortByViewDesc();
         if(productsList.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else {
             return new ResponseEntity<>(productsList,HttpStatus.OK);
         }
