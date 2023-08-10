@@ -67,6 +67,18 @@ public class ProductsCartsController {
             return new ResponseEntity<>(productsCarts, HttpStatus.OK);
         }
     }
+    @PutMapping("/merchant-update/{id}")
+    public ResponseEntity<ProductsCarts> merchantUpdate(@PathVariable Long id) {
+        Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
+        ProductsCarts productsCarts = productsCartsOptional.get();
+        if (!productsCartsOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            productsCarts.setStatusProductsCarts("0");
+            iProductsCartsService.update(productsCarts);
+            return new ResponseEntity<>(productsCarts, HttpStatus.OK);
+        }
+    }
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable Long id) {
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
@@ -74,6 +86,16 @@ public class ProductsCartsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             iProductsCartsService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+    @DeleteMapping("/merchant/{id}")
+    ResponseEntity<Void> deleteM(@PathVariable Long id) {
+        Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
+        if (!productsCartsOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            iProductsCartsService.deleteM(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -95,4 +117,14 @@ public class ProductsCartsController {
             return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
         }
     }
+    @GetMapping("/merchant-cart/{id}")
+    public ResponseEntity<List<ProductsCarts>> findAllByIdMerchant(@PathVariable Long id) {
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdMerchant(id);
+        if (productsCartsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
+        }
+    }
+
 }

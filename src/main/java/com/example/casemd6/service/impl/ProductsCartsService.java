@@ -51,7 +51,13 @@ public class ProductsCartsService implements IProductsCartsService {
 
     @Override
     public List<ProductsCarts> findByIdUserCart(Long id) {
-        return iProductsCartsRepository.findByIdUserCart(id);
+        double totalPrice;
+        List<ProductsCarts> productsCarts = iProductsCartsRepository.findByIdUserCart(id);
+        for (ProductsCarts p :productsCarts) {
+            totalPrice = p.getQuantity()*(p.getProducts().getPrice());
+            p.setTotalPrice(totalPrice);
+        }
+        return productsCarts;
     }
 
     @Override
@@ -60,30 +66,48 @@ public class ProductsCartsService implements IProductsCartsService {
     }
 
     @Override
+    public List<ProductsCarts> findByIdMerchant(Long id) {
+        double totalPrice;
+        List<ProductsCarts> productsCarts = iProductsCartsRepository.findByIdMerchant(id);
+        for (ProductsCarts p :productsCarts) {
+            totalPrice = p.getQuantity()*(p.getProducts().getPrice());
+            p.setTotalPrice(totalPrice);
+        }
+        return productsCarts;
+    }
+
+    @Override
+    public void deleteM(Long id) {
+        ProductsCarts productsCartsOptional = findOne(id).get();
+        if(productsCartsOptional !=null){
+            productsCartsOptional.setStatusProductsCarts("1");
+            iProductsCartsRepository.save(productsCartsOptional);
+        }
+    }
+
+    @Override
     public ProductsCarts save(ProductsCarts productsCarts) {
         productsCarts.setStatusProductsCarts("2");
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
         Carts carts = iCartsService.findOne(productsCarts.getCarts().getId()).get();
         Long id = carts.getUser().getId();
-//        products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
         List<ProductsCarts> productsCartsList = findByUser(id);
         for (ProductsCarts p:productsCartsList) {
             if(Objects.equals(products.getId(), p.getProducts().getId())
-                    && p.getProducts().getPrice() == products.getPrice()){
+                    && p.getProducts().getPrice() == products.getPrice() && Objects.equals(p.getStatusProductsCarts(), "2")){
                 p.setQuantity(p.getQuantity()+productsCarts.getQuantity());
-//                iProductsService.save(products);
                 return iProductsCartsRepository.save(p);
             }
         }
-//        iProductsService.save(products);
         return iProductsCartsRepository.save(productsCarts);
     }
 
     @Override
     public void remove(Long id) {
         ProductsCarts productsCartsOptional = findOne(id).get();
-        productsCartsOptional.setStatusProductsCarts("1");
-        save(productsCartsOptional);
+       if(productsCartsOptional !=null){
+           iProductsCartsRepository.deleteById(id);
+       }
 
     }
 }
