@@ -50,8 +50,18 @@ public class ProductsCartsService implements IProductsCartsService {
     }
 
     @Override
+    public List<ProductsCarts> findByIdUserCart(Long id) {
+        return iProductsCartsRepository.findByIdUserCart(id);
+    }
+
+    @Override
+    public ProductsCarts update(ProductsCarts productsCarts) {
+        return iProductsCartsRepository.save(productsCarts);
+    }
+
+    @Override
     public ProductsCarts save(ProductsCarts productsCarts) {
-        productsCarts.setStatusProductsCarts("0");
+        productsCarts.setStatusProductsCarts("2");
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
         Carts carts = iCartsService.findOne(productsCarts.getCarts().getId()).get();
         Long id = carts.getUser().getId();
