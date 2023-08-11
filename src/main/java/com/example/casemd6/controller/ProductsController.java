@@ -78,10 +78,10 @@ public class ProductsController {
         }
     }
     @GetMapping("/city/{id}")
-    public ResponseEntity<List<Products>> findProductsByCityId(@PathVariable Long id) {
+    public ResponseEntity<Iterable<Products>> findProductsByCityId(@PathVariable Long id) {
         List<Products> productsList = productService.findProductByCity(id);
         if (productsList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(productService.findAll(), HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(productsList, HttpStatus.OK);
         }
