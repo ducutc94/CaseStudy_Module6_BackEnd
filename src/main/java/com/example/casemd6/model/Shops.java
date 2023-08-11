@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,4 +23,8 @@ public class Shops {
     private User user;
     @ManyToOne
     private City city;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Voucher> voucher;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Shippers> shippers;
 }

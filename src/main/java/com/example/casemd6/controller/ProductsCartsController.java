@@ -2,6 +2,7 @@ package com.example.casemd6.controller;
 
 import com.example.casemd6.model.Products;
 import com.example.casemd6.model.ProductsCarts;
+import com.example.casemd6.model.ProductsCartsDTO;
 import com.example.casemd6.service.IProductsCartsService;
 import com.example.casemd6.service.IProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,4 +150,9 @@ public class ProductsCartsController {
         }
     }
 
+    @GetMapping("dto/{id}")
+    public ResponseEntity<ProductsCartsDTO> findByUserBill(@PathVariable Long id) {
+        ProductsCartsDTO productsCartsDTO = iProductsCartsService.findOneBill(id);
+            return new ResponseEntity<>(productsCartsDTO, HttpStatus.ACCEPTED);
+    }
 }

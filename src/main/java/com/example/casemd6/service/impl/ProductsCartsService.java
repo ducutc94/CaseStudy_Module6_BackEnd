@@ -120,4 +120,10 @@ public class ProductsCartsService implements IProductsCartsService {
        }
 
     }
+
+    @Override
+    public List<ProductsCarts> findByIdMerchantService() {
+        return iProductsCartsRepository.findAll();
+    }
+
 }
