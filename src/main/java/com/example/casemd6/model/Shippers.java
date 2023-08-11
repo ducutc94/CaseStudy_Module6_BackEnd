@@ -17,6 +17,5 @@ public class Shippers {
     private double percent;
     private String statusShippers = "0";
     private String status;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Shops> shops;
+
 }
