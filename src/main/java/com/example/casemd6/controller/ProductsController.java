@@ -59,10 +59,10 @@ public class ProductsController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Products>> findProductByName(@RequestParam("search") String search) {
+    public ResponseEntity<Iterable<Products>> findProductByName(@RequestParam("search") String search) {
         List<Products> productsList = productService.findAllByName(search);
         if (productsList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(productService.findAll(), HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(productsList, HttpStatus.OK);
         }
