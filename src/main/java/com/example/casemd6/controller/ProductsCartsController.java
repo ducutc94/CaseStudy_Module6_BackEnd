@@ -42,7 +42,7 @@ public class ProductsCartsController {
     }
     @PostMapping
     public  ResponseEntity<ProductsCarts> create(@RequestBody ProductsCarts productsCarts) {
-        return new ResponseEntity<>(iProductsCartsService.save(productsCarts), HttpStatus.CREATED);
+        return new ResponseEntity<>(iProductsCartsService.update(productsCarts), HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
     public ResponseEntity<ProductsCarts> update(@PathVariable Long id, @RequestBody ProductsCarts productsCarts) {
@@ -75,10 +75,10 @@ public class ProductsCartsController {
         if(total>=0){
             products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
             productsCarts.setStatusProductsCarts("0");
-            productsCarts.setDate(localDate);
+//            productsCarts.setDate(localDate);
         }else {
             productsCarts.setStatusProductsCarts("1");
-            productsCarts.setDate(localDate);
+//            productsCarts.setDate(localDate);
         }
         iProductsService.save(products);
         iProductsCartsService.update(productsCarts);

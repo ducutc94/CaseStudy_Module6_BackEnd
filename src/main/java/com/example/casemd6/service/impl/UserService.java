@@ -43,4 +43,7 @@ public class UserService implements UserDetailsService {
     public List<User> findAll() {
         return iUserRepository.findAll();
     }
+    public User findOne(Long id){
+        return iUserRepository.findById(id).get();
+    }
 }

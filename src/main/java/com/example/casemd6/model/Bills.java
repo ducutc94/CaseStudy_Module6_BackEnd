@@ -7,18 +7,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class ProductsCarts {
+public class Bills {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int quantity;
-    private String statusProductsCarts = "2";
+    private LocalDateTime dateTime;
+    private String status = "2";
     @ManyToOne
-    private Carts carts;
+    private User user;
     @ManyToOne
-    private Products products;
-    @ManyToOne
-    private Bills bills;
-    @Transient
-    private double totalPrice;
+    private Shops shops;
 }

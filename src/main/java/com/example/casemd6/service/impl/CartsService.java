@@ -6,6 +6,8 @@ import com.example.casemd6.service.ICartsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,6 +26,13 @@ public class CartsService implements ICartsService {
 
     @Override
     public Carts save(Carts carts) {
+        List<Carts> cartsList = (List<Carts>) findAll();
+        for (Carts c:cartsList
+             ) {
+            if (Objects.equals(c.getUser().getId(), carts.getUser().getId())){
+                return c;
+            }
+        }
         return iCartsRepository.save(carts);
     }
 

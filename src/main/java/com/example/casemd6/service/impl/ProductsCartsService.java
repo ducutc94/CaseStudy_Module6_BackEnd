@@ -1,5 +1,6 @@
 package com.example.casemd6.service.impl;
 
+import com.example.casemd6.model.Bills;
 import com.example.casemd6.model.Carts;
 import com.example.casemd6.model.Products;
 import com.example.casemd6.model.ProductsCarts;
@@ -124,6 +125,30 @@ public class ProductsCartsService implements IProductsCartsService {
     @Override
     public List<ProductsCarts> findByIdMerchantService() {
         return iProductsCartsRepository.findAll();
+    }
+
+    @Override
+    public ProductsCarts createS(Carts carts, Products products, int quantity) {
+        ProductsCarts productsCarts =new ProductsCarts();
+        productsCarts.setProducts(products);
+        productsCarts.setCarts(carts);
+        productsCarts.setQuantity(quantity);
+        double totalPrice ;
+        totalPrice = products.getPrice()*quantity;
+        productsCarts.setTotalPrice(totalPrice);
+        return iProductsCartsRepository.save(productsCarts);
+    }
+    @Override
+    public ProductsCarts create(Carts carts, Products products, int quantity, Bills bills) {
+        ProductsCarts productsCarts =new ProductsCarts();
+        productsCarts.setProducts(products);
+        productsCarts.setCarts(carts);
+        productsCarts.setQuantity(quantity);
+        double totalPrice ;
+        totalPrice = products.getPrice()*quantity;
+        productsCarts.setTotalPrice(totalPrice);
+//        productsCarts.setBills(bills);
+        return iProductsCartsRepository.save(productsCarts);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.example.casemd6.service;
 
+import com.example.casemd6.model.Bills;
+import com.example.casemd6.model.Carts;
+import com.example.casemd6.model.Products;
 import com.example.casemd6.model.ProductsCarts;
 import java.util.List;
 
@@ -12,4 +15,6 @@ public interface IProductsCartsService extends IGeneralService<ProductsCarts>{
     void deleteM(Long id);
     List<ProductsCarts> findByIdMerchantService( Long id);
     List<ProductsCarts> findByIdMerchantService( );
+    ProductsCarts createS(Carts carts, Products products, int quantity);
+    ProductsCarts create(Carts carts, Products products, int quantity, Bills bills);
 }
