@@ -71,6 +71,7 @@ public class ProductsCartsController {
     }
     @PutMapping("/update-confirm/{id}")
     public ResponseEntity<ProductsCarts> updateConfirm(@PathVariable Long id) {
+        LocalDateTime localDateTime = LocalDateTime.now();
         int total;
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
         Bills bills = iBillsService.findByProductsCartId(productsCartsOptional.get().getId());
@@ -81,10 +82,12 @@ public class ProductsCartsController {
             products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
             productsCarts.setStatusProductsCarts("0");
             bills.setStatus("0");
+            bills.setDateTime(localDateTime);
             iBillsService.save(bills);
         }else {
             productsCarts.setStatusProductsCarts("1");
             bills.setStatus("1");
+            bills.setDateTime(localDateTime);
             iBillsService.save(bills);
         }
         iProductsService.save(products);

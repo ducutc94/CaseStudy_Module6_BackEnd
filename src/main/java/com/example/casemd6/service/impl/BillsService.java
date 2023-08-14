@@ -56,7 +56,7 @@ public class BillsService implements IBillsService {
         bills.setShops(iShopsService.findOne(p.getProducts().getShops().getId()).get());
         save(bills);
         p.setBills(bills);
-        iProductsCartsService.save(p);
+        iProductsCartsService.update(p);
         billsList.add(bills);
         if (productsCarts.size() > 1) {
             int index = 0;
