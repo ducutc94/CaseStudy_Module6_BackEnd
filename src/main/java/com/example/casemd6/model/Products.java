@@ -21,5 +21,7 @@ public class Products {
     @ManyToOne
     private Shops shops;
     @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Voucher> voucher;
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Category> categories;
 }
