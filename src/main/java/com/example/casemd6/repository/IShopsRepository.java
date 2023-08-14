@@ -19,4 +19,5 @@ public interface IShopsRepository extends JpaRepository<Shops,Long> {
     @Query(value = "select * from shops where  status_shops = '0' and id = ?;",nativeQuery = true)
     Optional<Shops> findOneStatus(@PathVariable Long id);
     Shops findAllByEmailIgnoreCase(String email);
+
 }

@@ -22,6 +22,7 @@ public class ProductsCartsController {
     private IProductsCartsService iProductsCartsService;
     @Autowired
     private IProductsService iProductsService;
+
     @GetMapping()
     public ResponseEntity<List<ProductsCarts>> findAll() {
         List<ProductsCarts> productsCartsList = (List<ProductsCarts>) iProductsCartsService.findAll();
@@ -67,7 +68,6 @@ public class ProductsCartsController {
     @PutMapping("/update-confirm/{id}")
     public ResponseEntity<ProductsCarts> updateConfirm(@PathVariable Long id) {
         int total;
-        LocalDateTime localDate = LocalDateTime.now();
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
         ProductsCarts productsCarts = productsCartsOptional.get();
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
@@ -75,10 +75,8 @@ public class ProductsCartsController {
         if(total>=0){
             products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
             productsCarts.setStatusProductsCarts("0");
-//            productsCarts.setDate(localDate);
         }else {
             productsCarts.setStatusProductsCarts("1");
-//            productsCarts.setDate(localDate);
         }
         iProductsService.save(products);
         iProductsCartsService.update(productsCarts);
@@ -142,6 +140,35 @@ public class ProductsCartsController {
     @GetMapping("/merchant-service/{id}")
     public ResponseEntity<List<ProductsCarts>> findByIdMerchantService(@PathVariable Long id) {
         List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdMerchantService(id);
+        if (productsCartsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
+        }
+    }
+    @GetMapping("/merchant-service-all/{id}")
+    public ResponseEntity<List<ProductsCarts>> findByIdMerchantServiceAll(@PathVariable Long id) {
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByIdMerchantServiceAll(id);
+        if (productsCartsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
+        }
+    }
+    @GetMapping("/products-shop/{id}/{idShop}")
+    public ResponseEntity<List<ProductsCarts>> findByIdMerchantServiceAll(@PathVariable Long id,
+                                                                          @PathVariable Long idShop
+                                                                          ) {
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findPCByUser_Shop_Id(id,idShop);
+        if (productsCartsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(productsCartsList, HttpStatus.ACCEPTED);
+        }
+    }
+    @GetMapping("/products-user-id/{id}")
+    public ResponseEntity<List<ProductsCarts>> findByIdUserId(@PathVariable Long id) {
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findPCByUser(id);
         if (productsCartsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

@@ -114,4 +114,6 @@ public class BillsService implements IBillsService {
     public Bills findByShops_Id(Long id) {
         return iBillsRepository.findByShopIdStatus(id);
     }
+
+
 }

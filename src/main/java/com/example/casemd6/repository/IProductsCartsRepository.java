@@ -3,6 +3,7 @@ package com.example.casemd6.repository;
 import com.example.casemd6.model.ProductsCarts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -29,6 +30,28 @@ public interface IProductsCartsRepository extends JpaRepository<ProductsCarts,Lo
             "         inner join products p2 on p.products_id = p2.id\n" +
             "         inner join shops s on p2.shops_id = s.id\n" +
             "         inner join user u on s.user_id = u.id\n" +
-            "where user_id = ? ; ",nativeQuery = true)
+            "where user_id = ? and p.status_products_carts = 2 ; ",nativeQuery = true)
     List<ProductsCarts> findByIdMerchantService(@PathVariable Long id);
+    @Query(value = "select *\n" +
+            "from products_carts p\n" +
+            "         inner join products p2 on p.products_id = p2.id\n" +
+            "         inner join shops s on p2.shops_id = s.id\n" +
+            "         inner join user u on s.user_id = u.id\n" +
+            "where user_id = ? and p.status_products_carts != 2 ; ",nativeQuery = true)
+    List<ProductsCarts> findByIdMerchantServiceAll(@PathVariable Long id);
+    @Query(value = "select *\n" +
+            "from products_carts p\n" +
+            "         inner join products p2 on p.products_id = p2.id\n" +
+            "         inner join shops s on p2.shops_id = s.id\n" +
+            "         inner join user u on s.user_id = u.id\n" +
+            "where user_id =:id and s.id = :id_shop ; ",nativeQuery = true)
+    List<ProductsCarts> findPCByUser_Shop_Id(@Param("id") Long id,
+                                             @Param("id_shop") Long id_shop);
+
+    @Query(value = "select *\n" +
+            "from products_carts pc\n" +
+            "         inner join carts p2 on pc.carts_id = p2.id\n" +
+            "         inner join user u on p2.user_id = u.id\n" +
+            "where user_id = ?; ",nativeQuery = true)
+    List<ProductsCarts> findPCByUser(@PathVariable Long id);
 }

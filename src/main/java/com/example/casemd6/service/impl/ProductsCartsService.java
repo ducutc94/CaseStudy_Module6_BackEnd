@@ -97,6 +97,17 @@ public class ProductsCartsService implements IProductsCartsService {
     }
 
     @Override
+    public List<ProductsCarts> findByIdMerchantServiceAll(Long id) {
+        double totalPrice;
+        List<ProductsCarts> productsCarts = iProductsCartsRepository.findByIdMerchantServiceAll(id);
+        for (ProductsCarts p :productsCarts) {
+            totalPrice = p.getQuantity()*(p.getProducts().getPrice());
+            p.setTotalPrice(totalPrice);
+        }
+        return productsCarts;
+    }
+
+    @Override
     public ProductsCarts save(ProductsCarts productsCarts) {
         productsCarts.setStatusProductsCarts("2");
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
@@ -151,4 +162,13 @@ public class ProductsCartsService implements IProductsCartsService {
         return iProductsCartsRepository.save(productsCarts);
     }
 
+    @Override
+    public List<ProductsCarts> findPCByUser_Shop_Id(Long id, Long id_shop) {
+        return iProductsCartsRepository.findPCByUser_Shop_Id(id,id_shop);
+    }
+
+    @Override
+    public List<ProductsCarts> findPCByUser(Long id) {
+        return iProductsCartsRepository.findPCByUser(id);
+    }
 }
