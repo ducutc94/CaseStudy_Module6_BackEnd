@@ -115,5 +115,10 @@ public class BillsService implements IBillsService {
         return iBillsRepository.findByShopIdStatus(id);
     }
 
+    @Override
+    public Bills findByProductsCartId(Long id) {
+        return iBillsRepository.findByProductsCartId(id);
+    }
+
 
 }

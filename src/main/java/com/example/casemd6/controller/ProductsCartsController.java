@@ -1,7 +1,9 @@
 package com.example.casemd6.controller;
 
+import com.example.casemd6.model.Bills;
 import com.example.casemd6.model.Products;
 import com.example.casemd6.model.ProductsCarts;
+import com.example.casemd6.service.IBillsService;
 import com.example.casemd6.service.IProductsCartsService;
 import com.example.casemd6.service.IProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class ProductsCartsController {
     private IProductsCartsService iProductsCartsService;
     @Autowired
     private IProductsService iProductsService;
+    @Autowired
+    private IBillsService iBillsService;
 
     @GetMapping()
     public ResponseEntity<List<ProductsCarts>> findAll() {
@@ -69,14 +73,19 @@ public class ProductsCartsController {
     public ResponseEntity<ProductsCarts> updateConfirm(@PathVariable Long id) {
         int total;
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
+        Bills bills = iBillsService.findByProductsCartId(productsCartsOptional.get().getId());
         ProductsCarts productsCarts = productsCartsOptional.get();
         Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
         total = products.getQuantity()-productsCarts.getQuantity();
         if(total>=0){
             products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
             productsCarts.setStatusProductsCarts("0");
+            bills.setStatus("0");
+            iBillsService.save(bills);
         }else {
             productsCarts.setStatusProductsCarts("1");
+            bills.setStatus("1");
+            iBillsService.save(bills);
         }
         iProductsService.save(products);
         iProductsCartsService.update(productsCarts);
@@ -103,12 +112,11 @@ public class ProductsCartsController {
     @DeleteMapping("/merchant/{id}")
     ResponseEntity<Void> deleteM(@PathVariable Long id) {
         Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
-        if (!productsCartsOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            iProductsCartsService.deleteM(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
+        Bills bills = iBillsService.findByProductsCartId(productsCartsOptional.get().getId());
+        bills.setStatus("1");
+        iBillsService.save(bills);
+        iProductsCartsService.deleteM(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/user/{id}")
     public ResponseEntity<List<ProductsCarts>> findAllById(@PathVariable Long id) {

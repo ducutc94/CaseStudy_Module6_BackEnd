@@ -11,5 +11,8 @@ public interface IBillsRepository extends JpaRepository<Bills,Long> {
     @Query(value = "select * from bills s where shops_id = ? and s.status = 2;",nativeQuery = true)
     Bills findByShopIdStatus(@PathVariable Long id);
 
+    @Query(value = "select * from bills s inner join products_carts pc on s.id = pc.bills_id where pc.id = ?;",nativeQuery = true)
+    Bills findByProductsCartId(@PathVariable Long id);
+
 
 }
