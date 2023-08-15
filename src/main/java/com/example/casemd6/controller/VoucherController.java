@@ -26,9 +26,9 @@ public class VoucherController {
             return new ResponseEntity<>(voucherList, HttpStatus.ACCEPTED);
         }
     }
-    @GetMapping("/shop/{id}")
-    public ResponseEntity<List<Voucher>> findAllByShop(@PathVariable Long id) {
-        List<Voucher> voucherList = iVoucherService.findAllByShop(id);
+    @GetMapping("/product/{id}")
+    public ResponseEntity<List<Voucher>> findAllByProduct(@PathVariable Long id) {
+        List<Voucher> voucherList = iVoucherService.findAllByProduct(id);
         if (voucherList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

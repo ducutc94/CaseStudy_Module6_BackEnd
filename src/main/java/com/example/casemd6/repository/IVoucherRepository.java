@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface IVoucherRepository extends JpaRepository<Voucher,Long> {
-    @Query(value = "select * from voucher inner join shops_voucher sv on voucher.id = sv.voucher_id inner join shops s on sv.shops_id = s.id\n" +
-            "and s.id = ? where voucher.status_voucher = '0';",nativeQuery = true)
-    List<Voucher> findAllByShop(@PathVariable Long id);
+    @Query(value = "select * from voucher inner join products_voucher pv on voucher.id = pv.voucher_id\n" +
+            "inner join products p on pv.products_id = p.id and p.id = ? where status_voucher =0;",nativeQuery = true)
+    List<Voucher> findAllByProduct(@PathVariable Long id);
 }
