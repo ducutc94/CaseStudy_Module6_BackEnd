@@ -14,4 +14,5 @@ public interface IProductsService extends IGeneralService<Products>{
     List<Products> sortByPriceDesc();
     List<Products> sortByViewDesc();
     void findAllByShopId(Long id);
+    List<Products> findProductsByShopId(Long shopId);
 }

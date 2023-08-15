@@ -83,4 +83,9 @@ public class ProductsService implements IProductsService {
     public List<Products> sortByViewDesc() {
         return iProductsRepository.findAllByOrderByViewsDesc();
     }
+
+    @Override
+    public List<Products> findProductsByShopId(Long shopId) {
+        return iProductsRepository.findProductsByShopId(shopId);
+    }
 }
