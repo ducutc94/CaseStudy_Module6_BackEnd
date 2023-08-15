@@ -12,8 +12,5 @@ public class Voucher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private double percent;
-    private int quantity;
-    private String statusVoucher = "0";
-
+    private double percent = 0;
 }

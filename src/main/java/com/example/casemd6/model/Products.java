@@ -16,14 +16,13 @@ public class Products {
     private String description;
     private int quantity;
     private double price;
-    @ElementCollection
-    private List<String> image;
+    private String image;
     private int views;
     private String statusProducts = "0";
     @ManyToOne
     private Shops shops;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Voucher> voucher;
+    @ManyToOne
+    private Voucher voucher ;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Category> categories;
 }
