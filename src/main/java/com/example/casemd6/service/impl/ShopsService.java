@@ -2,6 +2,7 @@ package com.example.casemd6.service.impl;
 
 import com.example.casemd6.model.Shops;
 import com.example.casemd6.repository.IShopsRepository;
+import com.example.casemd6.service.IProductsService;
 import com.example.casemd6.service.IShopsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class ShopsService implements IShopsService {
     @Autowired
     private IShopsRepository iShopsRepository;
+    @Autowired
+    private IProductsService iProductsService;
     @Override
     public Iterable<Shops> findAll() {
         return iShopsRepository.findAllStatus();
@@ -36,6 +39,7 @@ public class ShopsService implements IShopsService {
         Shops shops = iShopsRepository.findById(id).get();
         if (shops != null) {
             shops.setStatusShops("1");
+            iProductsService.findAllByShopId(id);
             iShopsRepository.save(shops);
         }
     }

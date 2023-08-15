@@ -58,6 +58,18 @@ public class ProductsService implements IProductsService {
     }
 
     @Override
+    public void findAllByShopId(Long id) {
+        List<Products> productsList = iProductsRepository.findAllByShops_Id(id);
+        if (!productsList.isEmpty()){
+            for (Products p: productsList
+                 ) {
+                p.setStatusProducts("1");
+                save(p);
+            }
+        }
+    }
+
+    @Override
     public List<Products> sortByPriceAsc() {
         return iProductsRepository.findAllByOrderByPriceAsc();
     }

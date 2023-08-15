@@ -19,8 +19,8 @@ public class VoucherService implements IVoucherService {
     }
 
     @Override
-    public List<Voucher> findAllByShop(Long id) {
-        return iVoucherRepository.findAllByShop(id);
+    public List<Voucher> findAllByProduct(Long id) {
+        return iVoucherRepository.findAllByProduct(id);
     }
 
     @Override
