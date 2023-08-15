@@ -44,7 +44,7 @@ public interface IProductsCartsRepository extends JpaRepository<ProductsCarts,Lo
             "         inner join products p2 on p.products_id = p2.id\n" +
             "         inner join shops s on p2.shops_id = s.id\n" +
             "         inner join user u on s.user_id = u.id\n" +
-            "where user_id =:id and s.id = :id_shop ; ",nativeQuery = true)
+            "where user_id =:id and s.id = :id_shop and s.status_shops = '0'; ",nativeQuery = true)
     List<ProductsCarts> findPCByUser_Shop_Id(@Param("id") Long id,
                                              @Param("id_shop") Long id_shop);
 
