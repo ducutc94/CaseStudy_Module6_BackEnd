@@ -5,5 +5,5 @@ import com.example.casemd6.model.Voucher;
 import java.util.List;
 
 public interface IVoucherService extends IGeneralService<Voucher> {
-    List<Voucher> findAllByProduct(Long id);
+    Voucher findAllByProduct(Long id);
 }

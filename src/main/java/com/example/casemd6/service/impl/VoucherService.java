@@ -19,7 +19,7 @@ public class VoucherService implements IVoucherService {
     }
 
     @Override
-    public List<Voucher> findAllByProduct(Long id) {
+    public Voucher findAllByProduct(Long id) {
         return iVoucherRepository.findAllByProduct(id);
     }
 
@@ -36,10 +36,6 @@ public class VoucherService implements IVoucherService {
 
     @Override
     public void remove(Long id) {
-        Optional<Voucher> voucherOptional = iVoucherRepository.findById(id);
-        if (voucherOptional.isPresent()){
-            voucherOptional.get().setStatusVoucher("1");
-            iVoucherRepository.save(voucherOptional.get());
-        }
+        iVoucherRepository.deleteById(id);
     }
 }
