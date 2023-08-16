@@ -171,4 +171,9 @@ public class ProductsCartsService implements IProductsCartsService {
     public List<ProductsCarts> findPCByUser(Long id) {
         return iProductsCartsRepository.findPCByUser(id);
     }
+
+    @Override
+    public List<ProductsCarts> findByUserShop(Long id) {
+        return iProductsCartsRepository.findByUserShop(id);
+    }
 }

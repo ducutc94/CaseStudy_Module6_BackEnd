@@ -4,10 +4,7 @@ import com.example.casemd6.model.Bills;
 import com.example.casemd6.model.ProductsCarts;
 import com.example.casemd6.model.User;
 import com.example.casemd6.repository.IBillsRepository;
-import com.example.casemd6.service.IBillsService;
-import com.example.casemd6.service.IProductsCartsService;
-import com.example.casemd6.service.IShopsService;
-import com.example.casemd6.service.IUserService;
+import com.example.casemd6.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,8 @@ public class BillsService implements IBillsService {
     private UserService iUserService;
     @Autowired
     private IProductsCartsService iProductsCartsService;
+    @Autowired
+    private IBillsDTOService iBillsDTOService;
 
     @Override
     public Iterable<Bills> findAll() {
@@ -118,6 +117,11 @@ public class BillsService implements IBillsService {
     @Override
     public Bills findByProductsCartId(Long id) {
         return iBillsRepository.findByProductsCartId(id);
+    }
+
+    @Override
+    public List<Bills> findByShopID(Long id) {
+        return iBillsRepository.findByShopID(id);
     }
 
 
