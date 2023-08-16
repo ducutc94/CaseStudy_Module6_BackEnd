@@ -16,7 +16,8 @@ public class Products {
     private String description;
     private int quantity ;
     private double price;
-    private String image;
+    @ElementCollection
+    private List<String> image;
     private int views;
     private String statusProducts = "0";
     @ManyToOne
