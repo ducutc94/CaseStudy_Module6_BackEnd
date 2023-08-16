@@ -1,12 +1,6 @@
 package com.example.casemd6.controller;
-import com.example.casemd6.model.Bills;
-import com.example.casemd6.model.Carts;
-import com.example.casemd6.model.Products;
-import com.example.casemd6.model.ProductsCarts;
-import com.example.casemd6.service.IBillsService;
-import com.example.casemd6.service.ICartsService;
-import com.example.casemd6.service.IProductsCartsService;
-import com.example.casemd6.service.IProductsService;
+import com.example.casemd6.model.*;
+import com.example.casemd6.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +23,8 @@ public class BillsController {
     private IProductsCartsService iProductsCartsService;
     @Autowired
     private ICartsService iCartsService;
+    @Autowired
+    private IBillsDTOService iBillsDTOService;
     @GetMapping
     public ResponseEntity<Iterable<Bills>> findAll(){
         List<Bills> billsList = (List<Bills>) iBillsService.findAll();
@@ -36,6 +32,18 @@ public class BillsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else {
             return new ResponseEntity<>(billsList,HttpStatus.OK);
+        }
+
+    }
+    @GetMapping("/bill-dto/{id}")
+    public ResponseEntity<List<BillsDTO>> findAll(@PathVariable Long id){
+        List<Bills> billsList =  iBillsService.findByShopID(id);
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByUserShop(id);
+        List<BillsDTO>   billsDTOList = iBillsDTOService.findAll(billsList,productsCartsList);
+        if(billsDTOList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(billsDTOList,HttpStatus.OK);
         }
 
     }
@@ -49,6 +57,7 @@ public class BillsController {
         }
 
     }
+
     @PostMapping("/{id}/{idCart}")
     public ResponseEntity<List<Bills>> receiveData(
             @RequestBody Map<String, Object>[] itemsArray,

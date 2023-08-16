@@ -61,6 +61,6 @@ public class ShopsService implements IShopsService {
 
     @Override
     public List<Shops> findAllByUser(Long id) {
-        return iShopsRepository.findAllByUser_Id(id);
+        return iShopsRepository.findShopByUserId(id);
     }
 }

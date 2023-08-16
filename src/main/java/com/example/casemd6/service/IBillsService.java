@@ -11,6 +11,7 @@ public interface IBillsService extends IGeneralService<Bills> {
     Bills createById(Long id);
     Bills findByShops_Id(Long id);
     Bills findByProductsCartId( Long id);
+    List<Bills> findByShopID( Long id);
 
 
 }
