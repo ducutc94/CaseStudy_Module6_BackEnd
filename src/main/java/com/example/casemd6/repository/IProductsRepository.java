@@ -16,7 +16,7 @@ public interface IProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "select * from Products where Products .name like :name", nativeQuery = true)
     List<Products> findByName(@Param("name") String name);
 
-    @Query(value = "SELECT * FROM products WHERE status_products = 0", nativeQuery = true)
+    @Query(value = "SELECT * FROM products WHERE status_products = 0 ORDER BY id DESC", nativeQuery = true)
     List<Products> findProductsByStatusZero();
 
     @Query(value = "SELECT *FROM products p JOIN products_categories pc ON p.id = pc.products_id WHERE pc.categories_id =:categoryId", nativeQuery = true)
