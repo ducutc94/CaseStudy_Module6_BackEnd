@@ -16,7 +16,7 @@ public interface IShippersRepository extends JpaRepository<Shippers, Long> {
     @Query(value = "SELECT * FROM shippers WHERE status_shippers = 0", nativeQuery = true)
     List<Shippers> findShipperByStatusZero();
 
-    @Query(value = "select * from shippers join shippers_shops on shippers.id =  shippers_shops.shippers_id where shippers_shops.shops_id =:shopsId",nativeQuery = true)
+    @Query(value = "select * from shippers join shops_shippers on shippers.id =  shops_shippers.shippers_id where shops_shippers.shops_id =:shopsId",nativeQuery = true)
     List<Shippers> findShipperByShopId(@Param("shopsId") Long shopsId);
     @Modifying
     @Query(value = "insert into shippers_shops(shippers_id,shops_id) values (:shippersId,:shopsId)", nativeQuery = true)
