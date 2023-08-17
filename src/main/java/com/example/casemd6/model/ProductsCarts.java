@@ -19,6 +19,5 @@ public class ProductsCarts {
     private Products products;
     @ManyToOne
     private Bills bills;
-    @Transient
     private double totalPrice;
 }
