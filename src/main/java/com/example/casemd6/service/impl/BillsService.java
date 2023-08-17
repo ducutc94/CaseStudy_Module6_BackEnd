@@ -77,6 +77,7 @@ public class BillsService implements IBillsService {
                     iProductsCartsService.save(productsCarts.get(i));
                     billsList.add(bills1);
                 } else {
+                    flag = true;
                     productsCarts.get(i).setBills(billsList.get(index));
                     iProductsCartsService.save(productsCarts.get(i));
                 }
@@ -86,6 +87,11 @@ public class BillsService implements IBillsService {
         }
 
         return billsList;
+    }
+
+    @Override
+    public List<Bills> billsDone(List<ProductsCarts> productsCarts, Long id) {
+        return null;
     }
 
     @Override
@@ -122,6 +128,11 @@ public class BillsService implements IBillsService {
     @Override
     public List<Bills> findByShopID(Long id) {
         return iBillsRepository.findByShopID(id);
+    }
+
+    @Override
+    public List<Bills> findByUser(Long id) {
+        return iBillsRepository.findByUser(id);
     }
 
 

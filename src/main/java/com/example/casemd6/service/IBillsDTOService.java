@@ -7,6 +7,6 @@ import com.example.casemd6.model.ProductsCarts;
 import java.util.List;
 
 public interface IBillsDTOService extends IGeneralService<BillsDTO> {
-    List<BillsDTO> findAll(List<Bills> bills, List<ProductsCarts> productsCarts);
+    List<BillsDTO> findAllByMerchant(List<Bills> bills, List<ProductsCarts> productsCarts);
     List<BillsDTO> findAll(Long id, List<ProductsCarts> productsCarts);
 }

@@ -34,7 +34,7 @@ public class BillsDTOService implements IBillsDTOService {
     }
 
     @Override
-    public List<BillsDTO> findAll(List<Bills> bills, List<ProductsCarts> productsCarts) {
+    public List<BillsDTO> findAllByMerchant(List<Bills> bills, List<ProductsCarts> productsCarts) {
         List<BillsDTO> billsDTOList = new ArrayList<>();
         for (Bills bill : bills) {
             if (!isBills(billsDTOList, bill)) {
@@ -56,11 +56,13 @@ public class BillsDTOService implements IBillsDTOService {
                     billsDTO.setStatus("0");
                     billsDTO.setLocalDateTime(localDateTime);
                 } else if (isCheckNot(productsCartsList)) {
-                    LocalDateTime localDateTime = minLocal(productsCartsList);
+                    LocalDateTime localDateTime = LocalDateTime.now();
                     billsDTO.setStatus("1");
                     billsDTO.setLocalDateTime(localDateTime);
-                } else {
+                }else {
+                    LocalDateTime localDateTime = LocalDateTime.now();
                     billsDTO.setStatus("2");
+                    billsDTO.setLocalDateTime(localDateTime);
                 }
                 billsDTOList.add(billsDTO);
             }
@@ -77,17 +79,17 @@ public class BillsDTOService implements IBillsDTOService {
     public double total(List<ProductsCarts> productsCarts) {
         double total = 0;
         for (ProductsCarts p : productsCarts) {
-            total += p.getProducts().getPrice() * p.getQuantity();
+            total += p.getTotalPrice();
         }
         return total;
     }
 
     public boolean checkStatus(List<ProductsCarts> productsCarts) {
         for (ProductsCarts p : productsCarts) {
-            if (!Objects.equals(p.getStatusProductsCarts(), "0")) {
-              return false;
+            if (Objects.equals(p.getStatusProductsCarts(), "0")) {
+              return true;
             }
-        }return true;
+        }return false;
     }
 
     public boolean isCheckNot(List<ProductsCarts> productsCarts) {

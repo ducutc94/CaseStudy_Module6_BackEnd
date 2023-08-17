@@ -61,4 +61,7 @@ public interface IProductsCartsRepository extends JpaRepository<ProductsCarts,Lo
             "         inner join user u on s.user_id = u.id\n" +
             "where user_id = ?; ",nativeQuery = true)
     List<ProductsCarts> findByUserShop(@PathVariable Long id);
+    @Query(value = "select * from products_carts p\n" +
+            "join bills b on b.id = p.bills_id where b.user_id = ?;",nativeQuery = true)
+    List<ProductsCarts> findByUserBills(@PathVariable Long id);
 }

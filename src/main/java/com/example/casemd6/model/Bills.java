@@ -17,4 +17,5 @@ public class Bills {
     private User user;
     @ManyToOne
     private Shops shops;
+
 }
