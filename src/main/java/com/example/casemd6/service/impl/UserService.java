@@ -26,6 +26,18 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public User findOneByStatus(Long id) {
+        return iUserRepository.findOneUserId(id);
+    }
+
+    public void delete(Long id) {
+        User user = iUserRepository.findById(id).get();
+        if (user != null) {
+            user.setStatusUser("0");
+            iUserRepository.save(user);
+        }
+    }
+
     public UserDetails loadUserByUsername(String username) {
         List<User> users = iUserRepository.findAll();
         for (User user : users) {
@@ -43,7 +55,12 @@ public class UserService implements UserDetailsService {
     public List<User> findAll() {
         return iUserRepository.findAll();
     }
-    public User findOne(Long id){
+
+    public User findOne(Long id) {
         return iUserRepository.findById(id).get();
+    }
+
+    public User uploadImg(User user) {
+        return iUserRepository.save(user);
     }
 }
