@@ -1,5 +1,6 @@
 package com.example.casemd6.controller;
 
+import com.example.casemd6.model.ImgDTO;
 import com.example.casemd6.model.User;
 import com.example.casemd6.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +51,13 @@ public class UserController {
     }
 
     @PutMapping("/upload-img/{id}")
-    public ResponseEntity<User> uploadImg(@PathVariable Long id, @RequestBody String img) {
+    public ResponseEntity<User> uploadImg(@PathVariable Long id, @RequestBody ImgDTO imgDTO) {
         User user1 = userService.findOne(id);
         if (user1 == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             user1.setId(id);
-            user1.setImage(img);
+            user1.setImage(imgDTO.getImg());
             return new ResponseEntity<>(userService.uploadImg(user1), HttpStatus.OK);
         }
     }
