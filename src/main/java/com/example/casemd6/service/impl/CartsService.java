@@ -27,10 +27,12 @@ public class CartsService implements ICartsService {
     @Override
     public Carts save(Carts carts) {
         List<Carts> cartsList = (List<Carts>) findAll();
-        for (Carts c:cartsList
-             ) {
-            if (Objects.equals(c.getUser().getId(), carts.getUser().getId())){
-                return c;
+        if(!cartsList.isEmpty()){
+            for (Carts c:cartsList
+            ) {
+                if (Objects.equals(c.getUser().getId(), carts.getUser().getId())){
+                    return c;
+                }
             }
         }
         return iCartsRepository.save(carts);

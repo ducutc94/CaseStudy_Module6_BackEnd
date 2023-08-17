@@ -8,10 +8,11 @@ import java.util.List;
 
 public interface IBillsService extends IGeneralService<Bills> {
     List<Bills> listBills(List<ProductsCarts> productsCarts,Long id);
+    List<Bills> billsDone(List<ProductsCarts> productsCarts,Long id);
     Bills createById(Long id);
     Bills findByShops_Id(Long id);
     Bills findByProductsCartId( Long id);
     List<Bills> findByShopID( Long id);
 
-
+    List<Bills> findByUser( Long id);
 }

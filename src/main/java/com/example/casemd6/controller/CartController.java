@@ -36,7 +36,6 @@ public class CartController {
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
     @PostMapping
     public  ResponseEntity<Carts> createCart(@RequestBody Carts carts) {

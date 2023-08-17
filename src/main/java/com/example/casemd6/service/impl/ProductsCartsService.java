@@ -139,14 +139,13 @@ public class ProductsCartsService implements IProductsCartsService {
     }
 
     @Override
-    public ProductsCarts createS(Carts carts, Products products, int quantity) {
+    public ProductsCarts createS(Carts carts, Products products, int quantity,double money) {
         ProductsCarts productsCarts =new ProductsCarts();
         productsCarts.setProducts(products);
         productsCarts.setCarts(carts);
         productsCarts.setQuantity(quantity);
-        double totalPrice ;
-        totalPrice = products.getPrice()*quantity;
-        productsCarts.setTotalPrice(totalPrice);
+        productsCarts.setTotalPrice(money);
+        productsCarts.setStatusProductsCarts("2");
         return iProductsCartsRepository.save(productsCarts);
     }
     @Override
@@ -175,5 +174,10 @@ public class ProductsCartsService implements IProductsCartsService {
     @Override
     public List<ProductsCarts> findByUserShop(Long id) {
         return iProductsCartsRepository.findByUserShop(id);
+    }
+
+    @Override
+    public List<ProductsCarts> findByUserBills(Long id) {
+        return iProductsCartsRepository.findByUserBills(id);
     }
 }

@@ -39,7 +39,19 @@ public class BillsController {
     public ResponseEntity<List<BillsDTO>> findAll(@PathVariable Long id){
         List<Bills> billsList =  iBillsService.findByShopID(id);
         List<ProductsCarts> productsCartsList = iProductsCartsService.findByUserShop(id);
-        List<BillsDTO>   billsDTOList = iBillsDTOService.findAll(billsList,productsCartsList);
+        List<BillsDTO>   billsDTOList = iBillsDTOService.findAllByMerchant(billsList,productsCartsList);
+        if(billsDTOList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(billsDTOList,HttpStatus.OK);
+        }
+
+    }
+    @GetMapping("/bill-dto-user/{id}")
+    public ResponseEntity<List<BillsDTO>> findAllByUser(@PathVariable Long id){
+        List<Bills> billsList =  iBillsService.findByUser(id);
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByUserBills(id);
+        List<BillsDTO>  billsDTOList = iBillsDTOService.findAllByMerchant(billsList,productsCartsList);
         if(billsDTOList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else {
@@ -92,7 +104,7 @@ public class BillsController {
             }
             Carts carts = iCartsService.findOne(idCart).get();
             Products products = iProductsService.findOne(Long.valueOf(itemId)).get();
-            ProductsCarts productsCarts = iProductsCartsService.createS(carts,products,quantity);
+            ProductsCarts productsCarts = iProductsCartsService.createS(carts,products,quantity,money);
             productsCartsList.add(productsCarts);
             // Thực hiện xử lý với thông tin trích xuất
         }
