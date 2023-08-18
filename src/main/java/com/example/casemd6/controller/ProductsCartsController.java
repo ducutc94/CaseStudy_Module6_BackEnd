@@ -70,29 +70,55 @@ public class ProductsCartsController {
         return new ResponseEntity<>(productsCarts, HttpStatus.OK);
     }
     @PutMapping("/update-confirm/{id}")
-    public ResponseEntity<ProductsCarts> updateConfirm(@PathVariable Long id) {
-        LocalDateTime localDateTime = LocalDateTime.now();
+    public ResponseEntity<Bills> updateConfirm(@PathVariable Long id) {
         int total;
-        Optional<ProductsCarts> productsCartsOptional = iProductsCartsService.findOne(id);
-        Bills bills = iBillsService.findByProductsCartId(productsCartsOptional.get().getId());
-        ProductsCarts productsCarts = productsCartsOptional.get();
-        Products products = iProductsService.findOne(productsCarts.getProducts().getId()).get();
-        total = products.getQuantity()-productsCarts.getQuantity();
-        if(total>=0){
-            products.setQuantity(products.getQuantity()-productsCarts.getQuantity());
-            productsCarts.setStatusProductsCarts("0");
+        int count = 0;
+        Bills bills = iBillsService.findOne(id).get();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByBillsId(id);
+        for (ProductsCarts p:productsCartsList) {
+            Products products = iProductsService.findOne(p.getProducts().getId()).get();
+            total = products.getQuantity()-p.getQuantity();
+            if(total>=0){
+                count ++;
+            }
+        }
+        if(count == productsCartsList.size()){
             bills.setStatus("0");
             bills.setDateTime(localDateTime);
             iBillsService.save(bills);
+            for (ProductsCarts p:productsCartsList) {
+                Products products = iProductsService.findOne(p.getProducts().getId()).get();
+                products.setQuantity(products.getQuantity()-p.getQuantity());
+                p.setStatusProductsCarts("0");
+                iProductsService.save(products);
+                iProductsCartsService.update(p);
+            }
         }else {
-            productsCarts.setStatusProductsCarts("1");
             bills.setStatus("1");
             bills.setDateTime(localDateTime);
             iBillsService.save(bills);
+            for (ProductsCarts p:productsCartsList) {
+                p.setStatusProductsCarts("1");
+                iProductsCartsService.update(p);
+            }
         }
-        iProductsService.save(products);
-        iProductsCartsService.update(productsCarts);
-        return new ResponseEntity<>(productsCarts, HttpStatus.OK);
+        return new ResponseEntity<>(bills, HttpStatus.OK);
+    }
+    @PutMapping("/delete-confirm/{id}")
+    public ResponseEntity<Bills> deleteConfirm(@PathVariable Long id) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Bills bills = iBillsService.findOne(id).get();
+        bills.setDateTime(localDateTime);
+        bills.setStatus("1");
+        iBillsService.save(bills);
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByBillsId(id);
+        for (ProductsCarts p:productsCartsList
+        ) {
+            p.setStatusProductsCarts("1");
+            iProductsCartsService.update(p);
+        }
+        return new ResponseEntity<>(bills, HttpStatus.OK);
     }
     @PutMapping("/merchant-update/{id}")
     public ResponseEntity<ProductsCarts> merchantUpdate(@PathVariable Long id) {
@@ -169,7 +195,7 @@ public class ProductsCartsController {
     @GetMapping("/products-shop/{id}/{idShop}")
     public ResponseEntity<List<ProductsCarts>> findByIdMerchantServiceAll(@PathVariable Long id,
                                                                           @PathVariable Long idShop
-                                                                          ) {
+    ) {
         List<ProductsCarts> productsCartsList = iProductsCartsService.findPCByUser_Shop_Id(id,idShop);
         if (productsCartsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

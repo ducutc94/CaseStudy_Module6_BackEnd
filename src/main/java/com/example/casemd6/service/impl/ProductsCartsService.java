@@ -37,8 +37,8 @@ public class ProductsCartsService implements IProductsCartsService {
         double totalPrice;
         List<ProductsCarts> productsCarts = iProductsCartsRepository.findByIdUser(id);
         for (ProductsCarts p :productsCarts) {
-           totalPrice = p.getQuantity()*(p.getProducts().getPrice());
-           p.setTotalPrice(totalPrice);
+            totalPrice = p.getQuantity()*(p.getProducts().getPrice());
+            p.setTotalPrice(totalPrice);
         }
 
         return productsCarts;
@@ -127,9 +127,9 @@ public class ProductsCartsService implements IProductsCartsService {
     @Override
     public void remove(Long id) {
         ProductsCarts productsCartsOptional = findOne(id).get();
-       if(productsCartsOptional !=null){
-           iProductsCartsRepository.deleteById(id);
-       }
+        if(productsCartsOptional !=null){
+            iProductsCartsRepository.deleteById(id);
+        }
 
     }
 
@@ -179,5 +179,10 @@ public class ProductsCartsService implements IProductsCartsService {
     @Override
     public List<ProductsCarts> findByUserBills(Long id) {
         return iProductsCartsRepository.findByUserBills(id);
+    }
+
+    @Override
+    public List<ProductsCarts> findByBillsId(Long id) {
+        return iProductsCartsRepository.findByBillsId(id);
     }
 }

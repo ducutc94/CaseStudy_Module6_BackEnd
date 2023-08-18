@@ -79,7 +79,7 @@ public class BillsDTOService implements IBillsDTOService {
     public double total(List<ProductsCarts> productsCarts) {
         double total = 0;
         for (ProductsCarts p : productsCarts) {
-            total += p.getTotalPrice();
+            total +=   p.getTotalPrice();
         }
         return total;
     }
@@ -87,7 +87,7 @@ public class BillsDTOService implements IBillsDTOService {
     public boolean checkStatus(List<ProductsCarts> productsCarts) {
         for (ProductsCarts p : productsCarts) {
             if (Objects.equals(p.getStatusProductsCarts(), "0")) {
-              return true;
+                return true;
             }
         }return false;
     }
@@ -102,9 +102,10 @@ public class BillsDTOService implements IBillsDTOService {
     }
 
     public boolean isBills(List<BillsDTO> bills, Bills bills1) {
-        for (BillsDTO b : bills
-        ) {
-            return Objects.equals(b.getId(), bills1.getId());
+        for (BillsDTO b : bills) {
+            if (Objects.equals(b.getId(), bills1.getId())) {
+                return true;
+            }
         }
         return false;
     }

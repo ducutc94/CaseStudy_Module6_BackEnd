@@ -8,6 +8,7 @@ import com.example.casemd6.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,11 +49,14 @@ public class BillsService implements IBillsService {
 
     @Override
     public List<Bills> listBills(List<ProductsCarts> productsCarts, Long id) {
+        LocalDateTime localDateTime = LocalDateTime.now();
         List<Bills> billsList = new ArrayList<>();
         ProductsCarts p = productsCarts.get(0);
         Bills bills = new Bills();
         bills.setUser(iUserService.findOne(id));
         bills.setShops(iShopsService.findOne(p.getProducts().getShops().getId()).get());
+        bills.setDateTime(localDateTime);
+        bills.setStatus("2");
         save(bills);
         p.setBills(bills);
         iProductsCartsService.update(p);
@@ -65,13 +69,15 @@ public class BillsService implements IBillsService {
                     if (Objects.equals(billsList.get(j).getShops().getId(), productsCarts.get(i).getProducts().getShops().getId())) {
                         index = j;
                         flag=false;
-                       break;
+                        break;
                     }
                 }
                 if (flag) {
                     Bills bills1 = new Bills();
                     bills1.setUser(iUserService.findOne(id));
                     bills1.setShops(iShopsService.findOne(productsCarts.get(i).getProducts().getShops().getId()).get());
+                    bills.setDateTime(localDateTime);
+                    bills.setStatus("2");
                     save(bills1);
                     productsCarts.get(i).setBills(bills1);
                     iProductsCartsService.save(productsCarts.get(i));
@@ -79,7 +85,7 @@ public class BillsService implements IBillsService {
                 } else {
                     flag = true;
                     productsCarts.get(i).setBills(billsList.get(index));
-                    iProductsCartsService.save(productsCarts.get(i));
+                    iProductsCartsService.update(productsCarts.get(i));
                 }
 
 
