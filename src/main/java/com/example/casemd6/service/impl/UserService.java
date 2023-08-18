@@ -1,5 +1,6 @@
 package com.example.casemd6.service.impl;
 
+import com.example.casemd6.model.Role;
 import com.example.casemd6.model.User;
 import com.example.casemd6.model.UserPrinciple;
 import com.example.casemd6.repository.IUserRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +49,10 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
-
+    public User uploadRole(@RequestBody User user){
+        User user1 = iUserRepository.findOneUserId(user.getId());
+        return null;
+    }
     public User findAllByEmailIdIgnoreCase(String email) {
         return iUserRepository.findAllByEmailIgnoreCase(email);
     }
