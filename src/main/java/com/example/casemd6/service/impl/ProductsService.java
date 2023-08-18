@@ -1,6 +1,7 @@
 package com.example.casemd6.service.impl;
 
 import com.example.casemd6.model.Products;
+import com.example.casemd6.model.Shops;
 import com.example.casemd6.repository.IProductsRepository;
 import com.example.casemd6.service.IProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +88,29 @@ public class ProductsService implements IProductsService {
     @Override
     public List<Products> findProductsByShopId(Long shopId) {
         return iProductsRepository.findProductsByShopId(shopId);
+    }
+
+    @Override
+    public void removeProducts(Long id) {
+        List<Products> productsList = iProductsRepository.findAllByShops_Id(id);
+        if (!productsList.isEmpty()){
+            for (Products p: productsList
+            ) {
+                p.setStatusProducts("1");
+                save(p);
+            }
+        }
+    }
+
+    @Override
+    public void turnOnProducts(Long id) {
+        List<Products> productsList = iProductsRepository.findAllByShops_Id(id);
+        if (!productsList.isEmpty()){
+            for (Products p: productsList
+            ) {
+                p.setStatusProducts("0");
+                save(p);
+            }
+        }
     }
 }

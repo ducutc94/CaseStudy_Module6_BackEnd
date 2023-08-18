@@ -3,7 +3,9 @@ package com.example.casemd6.service.impl;
 import com.example.casemd6.model.Role;
 import com.example.casemd6.model.User;
 import com.example.casemd6.model.UserPrinciple;
+import com.example.casemd6.repository.IShopsRepository;
 import com.example.casemd6.repository.IUserRepository;
+import com.example.casemd6.service.IShopsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +20,8 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private IUserRepository iUserRepository;
+    @Autowired
+    private IShopsService iShopsService;
 
     public User findByUsername(String username) {
         return iUserRepository.findAllByUsername(username);
@@ -33,11 +37,20 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete(Long id) {
-        User user = iUserRepository.findById(id).get();
+        User user = iUserRepository.findById(id).orElse(null);
         if (user != null) {
-            user.setStatusUser("0");
+            int status = Integer.parseInt(user.getStatusUser());
+            if (status != 1) {
+                user.setStatusUser("1");
+                iShopsService.turnOnShop(user);
+            } else {
+                user.setStatusUser("0");
+                iShopsService.removeShop(user);
+
+            }
             iUserRepository.save(user);
         }
+
     }
 
     public UserDetails loadUserByUsername(String username) {

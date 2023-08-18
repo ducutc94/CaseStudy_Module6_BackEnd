@@ -1,6 +1,8 @@
 package com.example.casemd6.service.impl;
 
+import com.example.casemd6.model.Products;
 import com.example.casemd6.model.Shops;
+import com.example.casemd6.model.User;
 import com.example.casemd6.repository.IShopsRepository;
 import com.example.casemd6.service.IProductsService;
 import com.example.casemd6.service.IShopsService;
@@ -19,6 +21,7 @@ public class ShopsService implements IShopsService {
     private IShopsRepository iShopsRepository;
     @Autowired
     private IProductsService iProductsService;
+
     @Override
     public Iterable<Shops> findAll() {
         return iShopsRepository.findAllStatus();
@@ -36,17 +39,30 @@ public class ShopsService implements IShopsService {
 
     @Override
     public void remove(Long id) {
-        Shops shops = iShopsRepository.findById(id).get();
+        Shops shops = iShopsRepository.findById(id).orElse(null);
         if (shops != null) {
-            shops.setStatusShops("1");
-            iProductsService.findAllByShopId(id);
+            int status = Integer.parseInt(shops.getStatusShops());
+            if (status != 0) {
+                shops.setStatusShops("0");
+                iProductsService.turnOnProducts(id);
+            } else {
+                shops.setStatusShops("1");
+                iProductsService.removeProducts(id);
+            }
             iShopsRepository.save(shops);
         }
     }
 
     @Override
     public List<Shops> findShopByUserId(Long id) {
-        return iShopsRepository.findShopByUserId(id);
+        List<Shops> shopsList = iShopsRepository.findShopByUserId(id);
+        if (!shopsList.isEmpty()) {
+            for (Shops s : shopsList) {
+                s.setStatusShops("1");
+                save(s);
+            }
+        }
+        return shopsList;
     }
 
     @Override
@@ -62,5 +78,40 @@ public class ShopsService implements IShopsService {
     @Override
     public List<Shops> findAllByUser(Long id) {
         return iShopsRepository.findShopByUserId(id);
+    }
+
+    @Override
+    public Optional<Shops> findById(Long id) {
+        return iShopsRepository.findById(id);
+    }
+
+    @Override
+    public void removeShop(User user) {
+        List<Shops> list = iShopsRepository.findAllByUser_Id(user.getId());
+        for (Shops s : list) {
+            s.setStatusShops("1");
+            save(s);
+            List<Products> productsList = iProductsService.findProductsByShopId(s.getId());
+            for (Products p : productsList
+            ) {
+                p.setStatusProducts("1");
+                iProductsService.save(p);
+            }
+        }
+    }
+
+    @Override
+    public void turnOnShop(User user) {
+        List<Shops> list = iShopsRepository.findAllByUser_Id(user.getId());
+        for (Shops s : list) {
+            s.setStatusShops("0");
+            save(s);
+            List<Products> productsList = iProductsService.findProductsByShopId(s.getId());
+            for (Products p : productsList
+            ) {
+                p.setStatusProducts("0");
+                iProductsService.save(p);
+            }
+        }
     }
 }
