@@ -84,13 +84,12 @@ public class ShopController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Optional<Shops>> delete(@PathVariable Long id) {
-        Optional<Shops> shopsOptional = iShopsService.findOne(id);
-        if (!shopsOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
+        Optional<Shops> shopsOptional = iShopsService.findById(id);
+        if (shopsOptional.isPresent()) {
             iShopsService.remove(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/create")
