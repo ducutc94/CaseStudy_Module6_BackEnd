@@ -15,4 +15,5 @@ public interface IBillsService extends IGeneralService<Bills> {
     List<Bills> findByShopID( Long id);
 
     List<Bills> findByUser( Long id);
+    List<Bills> findAllByMerchant( Long id);
 }

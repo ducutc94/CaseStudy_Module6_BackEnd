@@ -141,5 +141,9 @@ public class BillsService implements IBillsService {
         return iBillsRepository.findByUser(id);
     }
 
+    @Override
+    public List<Bills> findAllByMerchant(Long id) {
+        return iBillsRepository.findAllByMerchant(id);
+    }
 
 }
