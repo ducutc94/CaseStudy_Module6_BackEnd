@@ -137,6 +137,16 @@ public class BillsService implements IBillsService {
     }
 
     @Override
+    public List<Bills> findBillByUserID(Long id) {
+        return iBillsRepository.findBillByUserID(id);
+    }
+
+    @Override
+    public List<Bills> findBillByShopID(Long useId, Long shopId) {
+        return iBillsRepository.findBillByShopID(useId,shopId);
+    }
+
+    @Override
     public List<Bills> findByUser(Long id) {
         return iBillsRepository.findByUser(id);
     }

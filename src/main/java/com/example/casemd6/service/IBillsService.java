@@ -13,6 +13,8 @@ public interface IBillsService extends IGeneralService<Bills> {
     Bills findByShops_Id(Long id);
     Bills findByProductsCartId( Long id);
     List<Bills> findByShopID( Long id);
+    List<Bills> findBillByUserID( Long id);
+    List<Bills> findBillByShopID( Long useId,Long shopId);
 
     List<Bills> findByUser( Long id);
 }

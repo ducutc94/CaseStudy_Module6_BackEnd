@@ -47,6 +47,34 @@ public class BillsController {
         }
 
     }
+
+
+    @GetMapping("/bill-chartjs/{id}")
+    public ResponseEntity<List<BillsDTO>> findBillByUserId(@PathVariable Long id){
+        List<Bills> billsList =  iBillsService.findBillByUserID(id);
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findBillByUserShop(id);
+        List<BillsDTO>   billsDTOList = iBillsDTOService.findAllByMerchant(billsList,productsCartsList);
+        if(billsDTOList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(billsDTOList,HttpStatus.OK);
+        }
+
+    }
+
+    @GetMapping("/user/{userId}/shops/{shopId}")
+    public ResponseEntity<List<BillsDTO>> findBillByShopId(@PathVariable Long userId,@PathVariable Long shopId){
+        List<Bills> billsList =  iBillsService.findBillByShopID(userId,shopId);
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findBillByShopId(userId,shopId);
+        List<BillsDTO>   billsDTOList = iBillsDTOService.findAllByMerchant(billsList,productsCartsList);
+        if(billsDTOList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(billsDTOList,HttpStatus.OK);
+        }
+
+    }
+
     @GetMapping("/bill-dto-user/{id}")
     public ResponseEntity<List<BillsDTO>> findAllByUser(@PathVariable Long id){
         List<Bills> billsList =  iBillsService.findByUser(id);

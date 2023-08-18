@@ -177,6 +177,16 @@ public class ProductsCartsService implements IProductsCartsService {
     }
 
     @Override
+    public List<ProductsCarts> findBillByUserShop(Long id) {
+        return iProductsCartsRepository.findBillByUserShop(id);
+    }
+
+    @Override
+    public List<ProductsCarts> findBillByShopId(Long userId, Long shopId) {
+        return iProductsCartsRepository.findBillByShopId(userId,shopId);
+    }
+
+    @Override
     public List<ProductsCarts> findByUserBills(Long id) {
         return iProductsCartsRepository.findByUserBills(id);
     }
