@@ -35,6 +35,21 @@ public class BillsController {
         }
 
     }
+    @GetMapping("/bill-dto-merchant/{id}")
+    public ResponseEntity<List<BillsDTO>> findAllMerchant(@PathVariable Long id){
+        List<Bills> billsList =  iBillsService.findAllByMerchant(id);
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findByMerchantId(id);
+        List<BillsDTO>   billsDTOList = iBillsDTOService.findAllByMerchant(billsList,productsCartsList);
+        if(billsDTOList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(billsDTOList,HttpStatus.OK);
+        }
+
+    }
+
+
+
     @GetMapping("/bill-dto/{id}")
     public ResponseEntity<List<BillsDTO>> findAll(@PathVariable Long id){
         List<Bills> billsList =  iBillsService.findByShopID(id);

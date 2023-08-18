@@ -30,6 +30,15 @@ public interface IBillsRepository extends JpaRepository<Bills, Long> {
             "         where u.id = ? and s.status = 2;", nativeQuery = true)
     List<Bills> findByShopID(@PathVariable Long id);
 
+    //    Tìm bill theo chủ shop
+    @Query(value = "select * from bills s\n" +
+            "    inner join products_carts pc on s.id = pc.bills_id\n" +
+            "         inner join products p on pc.products_id = p.id\n" +
+            "         inner join shops s2 on p.shops_id = s2.id\n" +
+            "         inner join user u on s2.user_id = u.id\n" +
+            "         where u.id = ? and s.status != 2;",nativeQuery = true)
+    List<Bills> findAllByMerchant(@PathVariable Long id);
+
     @Query(value = "select * from bills s\n" +
             "    inner join products_carts pc on s.id = pc.bills_id\n" +
             "         inner join products p on pc.products_id = p.id\n" +

@@ -29,4 +29,5 @@ public interface IProductsCartsService extends IGeneralService<ProductsCarts>{
     List<ProductsCarts> findBillByShopId( Long userId,Long shopId);
     List<ProductsCarts> findByUserBills( Long id);
     List<ProductsCarts> findByBillsId( Long id);
+    List<ProductsCarts> findByMerchantId( Long id);
 }

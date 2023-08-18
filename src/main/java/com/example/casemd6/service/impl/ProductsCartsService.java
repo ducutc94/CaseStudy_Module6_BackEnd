@@ -195,4 +195,9 @@ public class ProductsCartsService implements IProductsCartsService {
     public List<ProductsCarts> findByBillsId(Long id) {
         return iProductsCartsRepository.findByBillsId(id);
     }
+
+    @Override
+    public List<ProductsCarts> findByMerchantId(Long id) {
+        return iProductsCartsRepository.findByMerchantId(id);
+    }
 }
