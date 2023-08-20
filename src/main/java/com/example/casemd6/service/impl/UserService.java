@@ -62,9 +62,8 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
-    public User uploadRole(@RequestBody User user){
-        User user1 = iUserRepository.findOneUserId(user.getId());
-        return null;
+    public User uploadRole(User user){
+        return iUserRepository.save(user);
     }
     public User findAllByEmailIdIgnoreCase(String email) {
         return iUserRepository.findAllByEmailIgnoreCase(email);
