@@ -99,6 +99,15 @@ public interface IProductsCartsRepository extends JpaRepository<ProductsCarts, L
             "where user_id = ? and s.id=? and pc.status_products_carts = 0; ", nativeQuery = true)
     List<ProductsCarts> findBillByShopId(@PathVariable Long user_id ,@PathVariable Long shopId);
 
+    // Tìm PC theo userid vs shop status !=2
+    @Query(value = "select *\n" +
+            "from products_carts pc\n" +
+            "         inner join products p on pc.products_id = p.id\n" +
+            "         inner join shops s on p.shops_id = s.id\n" +
+            "         inner join user u on s.user_id = u.id\n" +
+            "where user_id = ? and s.id=? and pc.status_products_carts != 2; ", nativeQuery = true)
+    List<ProductsCarts> findBillByShopIdFilter(@PathVariable Long user_id ,@PathVariable Long shopId);
+
     @Query(value = "select * from products_carts p\n" +
             "join bills b on b.id = p.bills_id where b.user_id = ?;", nativeQuery = true)
     List<ProductsCarts> findByUserBills(@PathVariable Long id);
