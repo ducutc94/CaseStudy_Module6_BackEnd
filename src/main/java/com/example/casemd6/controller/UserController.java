@@ -61,6 +61,16 @@ public class UserController {
             return new ResponseEntity<>(userService.uploadImg(user1), HttpStatus.OK);
         }
     }
+    @PutMapping("/upload-role")
+    public ResponseEntity<User> uploadRole(@RequestBody User user) {
+       if (user == null){
+           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+       }else {
+
+           userService.uploadRole(user);
+           return new ResponseEntity<>(user,HttpStatus.OK);
+       }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
