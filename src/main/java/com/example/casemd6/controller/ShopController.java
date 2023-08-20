@@ -107,8 +107,8 @@ public class ShopController {
             }
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(shops.getEmail());
-            mailMessage.setSubject("Complete Registration!");
-            mailMessage.setText("To confirm your account shops, please click here : "
+            mailMessage.setSubject("Chúc mừng bạn đã đăng kí cửa hàng thành công!");
+            mailMessage.setText("Để xác thực vui lòng click vào đây : "
                     +"http://localhost:8080/api/shops/confirm-shop?token="+confirmationTokenShops.getConfirmationTokenShops());
             emailService.sendEmail(mailMessage);
             return new ResponseEntity<>(HttpStatus.OK);

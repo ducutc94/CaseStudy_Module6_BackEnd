@@ -64,8 +64,8 @@ public class AuthController {
             confirmationTokenRepository.save(confirmationToken);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(user.getEmail());
-            mailMessage.setSubject("Complete Registration!");
-            mailMessage.setText("To confirm your account, please click here : "
+            mailMessage.setSubject("Chúc mừng bạn đã đăng kí thành công!");
+            mailMessage.setText("Để xác thực vui lòng click vào đây : "
                     +"http://localhost:8080/api/auth/confirm-account?token="+confirmationToken.getConfirmationToken());
             emailService.sendEmail(mailMessage);
             return new ResponseEntity<>(HttpStatus.OK);
