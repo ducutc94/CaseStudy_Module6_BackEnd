@@ -13,8 +13,11 @@ import java.util.Optional;
 public interface IShopsRepository extends JpaRepository<Shops,Long> {
     @Query(value = "select * from shops where status_shops ='0';",nativeQuery = true)
     List<Shops> findAllStatus();
-    @Query(value = "select * from shops inner join user u on shops.user_id = u.id where user_id = ?;",nativeQuery = true)
+    @Query(value = "select * from shops inner join user u on shops.user_id = u.id where status_shops = '0' and user_id = ?;",nativeQuery = true)
     List<Shops> findShopByUserId(@PathVariable Long id);
+
+    @Query(value = "select * from shops inner join user u on shops.user_id = u.id where user_id = ?;",nativeQuery = true)
+    List<Shops> findAllShopByUserId(@PathVariable Long id);
     List<Shops> findAllByUser_Id(Long id);
     @Query(value = "select * from shops where  status_shops = '0' and id = ?;",nativeQuery = true)
     Optional<Shops> findOneStatus(@PathVariable Long id);
