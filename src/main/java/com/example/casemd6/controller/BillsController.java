@@ -89,6 +89,18 @@ public class BillsController {
         }
 
     }
+    @GetMapping("/filter/user/{userId}/shops/{shopId}")
+    public ResponseEntity<List<BillsDTO>> findBillByShopIdFilter(@PathVariable Long userId,@PathVariable Long shopId){
+        List<Bills> billsList =  iBillsService.findBillByShopIDFilter(userId,shopId);
+        List<ProductsCarts> productsCartsList = iProductsCartsService.findBillByShopIdFilter(userId,shopId);
+        List<BillsDTO>   billsDTOList = iBillsDTOService.findAllByMerchant(billsList,productsCartsList);
+        if(billsDTOList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(billsDTOList,HttpStatus.OK);
+        }
+
+    }
 
     @GetMapping("/bill-dto-user/{id}")
     public ResponseEntity<List<BillsDTO>> findAllByUser(@PathVariable Long id){
