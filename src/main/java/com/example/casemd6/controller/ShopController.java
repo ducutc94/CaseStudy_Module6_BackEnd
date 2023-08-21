@@ -53,6 +53,15 @@ public class ShopController {
             return new ResponseEntity<>(shopsList, HttpStatus.ACCEPTED);
         }
     }
+    @GetMapping("/user-bill/{id}")
+    public ResponseEntity<List<Shops>> findShopByUserIdBill(@PathVariable Long id) {
+        List<Shops> shopsList =  iShopsService.findAllByUserBill(id);
+        if (shopsList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(shopsList, HttpStatus.ACCEPTED);
+        }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Shops>> findOne(@PathVariable Long id) {

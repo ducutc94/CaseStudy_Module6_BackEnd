@@ -17,6 +17,7 @@ public interface IShopsService extends IGeneralService<Shops> {
     List<Shops> findAllByAdmin();
 
     List<Shops> findAllByUser(Long id);
+    List<Shops> findAllByUserBill(Long id);
 
     Optional<Shops> findById(Long id);
 
