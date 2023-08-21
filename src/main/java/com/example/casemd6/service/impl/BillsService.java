@@ -2,7 +2,6 @@ package com.example.casemd6.service.impl;
 
 import com.example.casemd6.model.Bills;
 import com.example.casemd6.model.ProductsCarts;
-import com.example.casemd6.model.User;
 import com.example.casemd6.repository.IBillsRepository;
 import com.example.casemd6.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,6 @@ public class BillsService implements IBillsService {
     private UserService iUserService;
     @Autowired
     private IProductsCartsService iProductsCartsService;
-    @Autowired
-    private IBillsDTOService iBillsDTOService;
 
     @Override
     public Iterable<Bills> findAll() {
@@ -93,37 +90,6 @@ public class BillsService implements IBillsService {
         }
 
         return billsList;
-    }
-
-    @Override
-    public List<Bills> billsDone(List<ProductsCarts> productsCarts, Long id) {
-        return null;
-    }
-
-    @Override
-    public Bills createById(Long id) {
-        Bills bills = iBillsRepository.findAllByUser_Id(id);
-        if (bills != null) {
-            if (Objects.equals(bills.getStatus(), "2")) {
-                return bills;
-            } else {
-                Bills bills1 = new Bills();
-                User user = iUserService.findOne(id);
-                bills1.setUser(user);
-                return iBillsRepository.save(bills1);
-            }
-        } else {
-            Bills bills1 = new Bills();
-            User user = iUserService.findOne(id);
-            bills1.setUser(user);
-            return iBillsRepository.save(bills1);
-        }
-
-    }
-
-    @Override
-    public Bills findByShops_Id(Long id) {
-        return iBillsRepository.findByShopIdStatus(id);
     }
 
     @Override

@@ -2,10 +2,6 @@ package com.example.casemd6.service;
 
 import com.example.casemd6.model.Shops;
 import com.example.casemd6.model.User;
-import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 import java.util.Optional;
 
