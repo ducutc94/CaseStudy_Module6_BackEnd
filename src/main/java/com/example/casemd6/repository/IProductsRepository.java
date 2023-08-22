@@ -37,6 +37,9 @@ public interface IProductsRepository extends JpaRepository<Products, Long> {
 
     List<Products> findAllByOrderByViewsDesc();
 
+    @Query(value = "SELECT * FROM products WHERE status_products = 0 ORDER BY views DESC", nativeQuery = true)
+    List<Products> findProductsByView();
+
     @Query(value = "select * from products where shops_id =:shopId", nativeQuery = true)
     List<Products> findProductsByShopId(@Param("shopId") Long shopId);
 }

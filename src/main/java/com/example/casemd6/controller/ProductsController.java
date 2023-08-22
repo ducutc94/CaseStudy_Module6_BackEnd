@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -108,27 +110,43 @@ public class ProductsController {
     @GetMapping("/sort_price_asc")
     public ResponseEntity<List<Products>>listProductsByPriceAsc(){
         List<Products> productsList = productService.sortByPriceAsc();
-        if (productsList.isEmpty()){
+        List<Products> newList = new ArrayList<>();
+        for (Products p:productsList
+             ) {
+            if(Objects.equals(p.getStatusProducts(), "0")){
+                newList.add(p);
+            }
+        }
+        if (newList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(productsList,HttpStatus.OK);
+            return new ResponseEntity<>(newList,HttpStatus.OK);
         }
     }
     @GetMapping("/sort_price_desc")
     public ResponseEntity<List<Products>> listProductsByPriceDesc (){
         List<Products> productsList = productService.sortByPriceDesc();
-        if (productsList.isEmpty()){
+        List<Products> listSortPriceDSC = new ArrayList<>();
+        for (Products p:productsList
+        ) {
+            if(Objects.equals(p.getStatusProducts(), "0")){
+                listSortPriceDSC.add(p);
+            }
+        }
+        if (listSortPriceDSC.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(productsList,HttpStatus.OK);
+            return new ResponseEntity<>(listSortPriceDSC,HttpStatus.OK);
         }
     }
 
+
+
     @GetMapping("/sort_view_desc")
         public ResponseEntity<List<Products>>listProductsByViewDesc(){
-        List<Products> productsList = productService.sortByViewDesc();
+        List<Products> productsList = productService.findProductsByView();
         if(productsList.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else {
             return new ResponseEntity<>(productsList,HttpStatus.OK);
         }

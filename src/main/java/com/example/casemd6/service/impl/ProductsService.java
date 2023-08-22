@@ -103,6 +103,11 @@ public class ProductsService implements IProductsService {
     }
 
     @Override
+    public List<Products> findProductsByView() {
+        return iProductsRepository.findProductsByView();
+    }
+
+    @Override
     public void turnOnProducts(Long id) {
         List<Products> productsList = iProductsRepository.findAllByShops_Id(id);
         if (!productsList.isEmpty()){

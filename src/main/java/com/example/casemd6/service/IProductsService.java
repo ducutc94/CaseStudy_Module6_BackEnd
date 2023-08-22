@@ -19,6 +19,7 @@ public interface IProductsService extends IGeneralService<Products>{
     List<Products> findProductsByShopId(Long shopId);
 
     void removeProducts(Long id);
+    List<Products> findProductsByView();
 
     void turnOnProducts(Long id);
 
