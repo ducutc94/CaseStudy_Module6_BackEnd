@@ -19,7 +19,7 @@ public interface IProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "SELECT * FROM products WHERE status_products = 0 ORDER BY id DESC", nativeQuery = true)
     List<Products> findProductsByStatusZero();
 
-    @Query(value = "SELECT *FROM products p JOIN products_categories pc ON p.id = pc.products_id WHERE pc.categories_id =:categoryId", nativeQuery = true)
+    @Query(value = "SELECT *FROM products p JOIN products_categories pc ON p.id = pc.products_id WHERE pc.categories_id =:categoryId and p.status_products = 0", nativeQuery = true)
     List<Products> findProductByCategoryId(@Param("categoryId") Long categoryId);
 
     //    @Query(value = "select * from products inner join voucher_shops vs on products.shops_id = vs.shops_id and voucher_id where status_products = 0;", nativeQuery = true)
